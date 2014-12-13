@@ -1,0 +1,71 @@
+.footer{ width:100%; height:41px; background:url(../images/footer.jpg) 0 0 repeat-x; clear:both; overflow:hidden; margin-top:8px;}
+.footerbg{ width:100%; height:41px; background:url(../images/footerbg.jpg) 0 0 no-repeat; margin:0px auto; line-height:30px; text-align:center; color:#fff;}
+
+ul li{ list-style:none;}
+
+.orange{ color:#e97104;}
+
+.backred { background-color: #FF0000; color:#FFFFFF;}
+
+.backgreen { background-color: #00FF00; color:#FFFFFF;}
+
+.br { background-color: #FF0000; color:#FFFFFF;}
+
+.bg { background-color: #00FF00; color:#FFFFFF;}
+
+.boldhref {color:#FF0000; font-size:14px; font-weight:bold}
+
+.blackbold {font-weight:bold; color:#000000}
+
+.orangebold {font-weight:bold; color:#e97104}
+
+
+.tabwr{ width:100%; height:auto; border:1px solid #DBE6E2; margin:0px auto; overflow:hidden; clear:both;}
+
+.tabwr ul{margin:0;}
+
+ul.ulstyle{margin-left:-40px}
+ul.ulstyle li{ height:80px;  width:100%;  display:block; border-bottom:1px solid #DBE6E2; clear:both;overflow:hidden;}
+
+ul.ulstyle li.li0{width:100%; height:40px; line-height:40px; text-align:center; color:#333; background:#F3F7F6; display:block;}
+
+ul.ulstyle li.li2{width:100%; height:40px; line-height:40px; text-align:center;}
+
+ul.ulstyle li div{float:left; border-right:1px solid #DBE6E2; overflow:hidden;}
+
+ul.ulstyle li div.borderright0{ width:7%; height:40px; color: #1f4268;}
+
+ul.ulstyle li div.borderright1{ width:50%; height:40px; color: #1f4268;}
+
+ul.ulstyle li div.borderright2{ width:15%; height:40px; color: #1f4268;}
+ul.ulstyle li div.borderright3{ width:15%; height:40px; color: #1f4268;}
+ul.ulstyle li div.borderright4{ width:11%; height:40px; border:0px; color: #1f4268;}
+
+ul.ulstyle li div.borderright00{ width:7%; height:40px; text-align:center; line-height:36px; color: #1f4268;}
+ul.ulstyle li div.borderright11{ width:50%; height:40px; text-align:center; line-height:36px; color: #1f4268; }
+ul.ulstyle li div.borderright22{ width:15%; height:40px; text-align:center; line-height:36px; color: #1f4268; }
+ul.ulstyle li div.borderright33{ width:15%; height:40px; text-align:center; line-height:36px; color: #1f4268; }
+ul.ulstyle li div.borderright44{ width:11%; height:40px; text-align:center; line-height:36px; border:0px; color: #1f4268;}
+
+a{
+	color: #000;
+}
+
+a:hover{
+	color: #000;
+	text-decoration: none;
+}
+
+body, a, span, h1, h2, h3, h4, h5, h6{
+	font-family: Microsoft YaHei, Helvetica, "Trebuchet MS", Arial, sans-serif;
+}
+
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+fieldset, lengend, button, input, textarea, /* form elements 表单元素 */
+th, td { /* table elements 表格元素 */
+    margin: 0;
+    padding: 0;
+}

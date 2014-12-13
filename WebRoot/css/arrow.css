@@ -1,0 +1,103 @@
+﻿/***********css生成箭头***********/
+div.topArrowFrom, div.bottomArrowFrom{
+	margin-top: 70px;
+	position: relative;
+	overflow: visible;
+	background-clip: padding-box;
+	border-width: 10px;
+	border-style: solid;
+	border-color: #ff7f50;
+	border-radius: 3em;
+	/**border颜色自定义**/
+}
+
+.topArrowFrom:before, .topArrowFrom:after,
+.bottomArrowFrom:before, .bottomArrowFrom:after {
+	content: "";
+	position: absolute;
+	left: 50%;
+}
+
+.bottomArrowFrom:before, .bottomArrowFrom:after {
+	top: 100%;
+}
+
+.topArrowFrom:before, .bottomArrowFrom:before {
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+}
+
+.topArrowFrom:after, .bottomArrowFrom:after{
+	left: 51%;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+}
+
+.topArrowFrom:before {
+	/**与border颜色相同**/
+	border-bottom: 50px solid #ff7f50;
+	margin-top: -60px;
+}
+
+.topArrowFrom:after{
+	/**与背景颜色相同**/
+	border-bottom: 30px solid #f1fdbd;
+	margin-top: -30px;
+	z-index: 1;
+}
+
+.bottomArrowFrom:before {
+	/**与border颜色相同**/
+	border-top: 50px solid #ff7f50;
+	margin-top: 10px;
+}
+
+.bottomArrowFrom:after{
+	/**与背景颜色相同**/
+	border-top: 30px solid #f1fdbd;
+	margin-top: 0px;
+	z-index: 1;
+}
+
+/**************************/
+
+div.greenStyle{
+	border-color: #19988b;
+}
+
+.greenStyle.topArrowFrom:before{
+	border-bottom-color: #19988b;
+}
+
+.greenStyle.bottomArrowFrom:before{
+	border-top-color: #19988b;
+}
+
+div.green2Style{
+	border-color: #00c4b4;
+}
+
+.green2Style.topArrowFrom:before{
+	border-bottom-color: #00c4b4;
+}
+
+.green2Style.bottomArrowFrom:before{
+	border-top-color: #00c4b4;
+}
+
+.arrowBGWhite.topArrowFrom:after{
+	border-bottom-color: #fff;	
+}
+
+.arrowBGWhite.bottomArrowFrom:after{
+	border-top-color: #fff;	
+}
+
+.arrowBGYellow.topArrowFrom:after{
+	border-bottom-color: #f0fdbd;	
+}
+
+.arrowBGYellow.bottomArrowFrom:after{
+	border-top-color: #f0fdbd;	
+}
+

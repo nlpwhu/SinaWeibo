@@ -1,0 +1,419 @@
+/**style.css**/
+
+#wrap>header{
+	background: url(../images/banner.jpg) no-repeat;
+}
+
+nav.main li{
+	background-color: rgba(153,153,153,0.5);
+	border: 1px solid rgba(153,153,153,0.5);
+	border-radius: 0 0 1.5em 1.5em;
+	font-size: 1.4em;
+	font-weight: bold;
+}
+
+nav.main a:hover{
+	cursor: pointer;
+}
+
+#UserGender, #UserWebAge, #UserVerifyType, #UserRegion, #WeiboRelease, #WeiboSource, 
+#WeiboTimePeriod, #UserRelationship, #tab_BasicInfo, #tab_PresetFocus, #tab_ExtractFocus, 
+#tab_Topics, #PsychologyEventS, #PsychologyEventT, #EventTagC, #PEEventS, #PEEventT 
+{
+	background-color: #007582;
+}
+
+#UserGender:hover, #UserWebAge:hover, #UserVerifyType:hover, #UserRegion:hover, #WeiboRelease:hover, #WeiboSource:hover, 
+#WeiboTimePeriod:hover, #UserRelationship:hover, #tab_BasicInfo:hover, #tab_PresetFocus:hover, #tab_ExtractFocus:hover, 
+#tab_Topics:hover, #PsychologyEventS:hover, #PsychologyEventT:hover, #EventTagC:hover,
+#PEEventS:hover, #PEEventT:hover
+{
+	background-color: #15dac9;
+}
+
+#page_content h2{
+	overflow: hidden;
+}
+
+#tab_div{
+	background-color: #009483;
+}
+
+#UserGenderRate{
+	background: url(../images/genderBG.png) 185 120 no-repeat #f1fdbd;
+}
+
+#UserGenderRate h2{
+	background: url(../images/basicInfo.png) 0 0 no-repeat;
+}
+
+#UserWebAgeMap{
+	background: url(../images/ageBG.png) 200 100 no-repeat;
+}
+
+#UserWebAgeMap h2{
+	background: url(../images/basicInfo.png) 0 -75 no-repeat;
+}
+
+#UserVerifyTypeMap h2{
+	background: url(../images/basicInfo.png) 0 -150 no-repeat;
+}
+
+#UserRegionMap h2{
+	background: url(../images/basicInfo.png) 0 -224 no-repeat;
+}
+
+#WeiboReleaseForm{
+	background: url(../images/releaseForm.png) 143 202 no-repeat #f1fdbd;
+}
+
+#WeiboReleaseForm h2{
+	background: url(../images/basicInfo.png) 0 -300 no-repeat;
+}
+
+#pic{
+	background: url(../images/resource.png) 100 200 no-repeat;
+}
+
+
+#WeiboSourceMap h2{
+	background: url(../images/basicInfo.png) 0 -375 no-repeat;
+}
+
+#WeiboPhoneBrandMap h4{
+	background: url(../images/tt.png) 10 0 no-repeat;
+}
+
+#WeiboTimePeriodMap{
+	background: url(../images/timePeriod.png) 115 395 no-repeat #f1fdbd;
+}
+
+#WeiboTimePeriodMap h2{
+	background: url(../images/basicInfo.png) 0 -450 no-repeat;
+}
+
+#UserRelationshipMap h2{
+	background: url(../images/basicInfo.png) 0 -525 no-repeat;
+}
+
+#ForwardOriginalMap h2{
+	background: url(../images/basicInfo.png) 0 -600 no-repeat;
+}
+
+#BasicQuantityMap h2{
+	background: url(../images/basicInfo.png) 0 -675 no-repeat;
+}
+
+#PresetFocusAnalysis h2{
+	background: url(../images/basicInfo.png) 0 -750 no-repeat;
+}
+
+#PresetFocusTrend h2{
+	background: url(../images/basicInfo.png) 0 -825 no-repeat;
+}
+
+#KeyWordsMap h2{
+	background: url(../images/basicInfo.png) 0 -900 no-repeat;
+}
+
+#ExtractFocusTrend h2{
+	background: url(../images/basicInfo.png) 0 -1125 no-repeat;	
+}
+
+#KeyWordsMap h3{
+	background: url(../images/keywordCloud.png) no-repeat;
+}
+
+#TagCloud_All h2{
+	background: url(../images/basicInfo.png) 0 -1050 no-repeat;
+}
+
+#ExtractTopicTrend h2{
+	background: url(../images/basicInfo.png) 0 -975 no-repeat;
+}
+
+
+#PsychologyEventStatistics{
+	background: url(../images/psy.png) 285 130 no-repeat #f1fdbd;
+}
+
+
+#PsychologyEventStatistics h2{
+	background: url(../images/basic.png) 0 0 no-repeat;
+}
+
+#PsychologyEventTrend h2{
+	background: url(../images/basic.png) 0 -75 no-repeat;
+}
+
+#PsyEventTagCloud h2{
+	background: url(../images/basic.png) 0 -150 no-repeat #f1fdbd;
+}
+
+#PsyEventTagCloud h3{
+	background: url(../images/keywordCloud.png) no-repeat;
+}
+
+#PEEventStatistics h2{
+	background: url(../images/basic.png) 0 -225 no-repeat #f1fdbd;
+}
+
+#PEEventTren h2{
+	background: url(../images/basic.png) 0 -300 no-repeat;
+}
+
+#PEEventTagCloud h2{
+	background: url(../images/basic.png) 0 -375 no-repeat #f1fdbd;
+}
+
+#Search{
+	
+}
+
+#keywordStr{
+	border: 1px solid #15dac9;
+	border-radius: 0.5em;
+}
+
+#searchSubmit{
+	border: 0;
+	border-radius: 0.2em;
+	background-color: #15dac9;
+	color: #fff;
+	font-size: 2em;
+}
+
+ul#tab li a{
+	font-size: 1.5em;
+	font-weight: bold;
+	color:#fff;
+	background: #007582;
+}
+
+ul#tab a.current{
+	background: #15dac9;
+}
+
+ul#_tab li a{
+	font-size: 1.5em;
+	font-weight: bold;
+	color:#fff;
+}
+
+#FocusTagCloud_All{
+	border: 10px solid #19988b;
+	border-radius: 3em;
+}
+
+.cloudLabelUl li span {
+	font-size: 1.2em;
+}
+
+/**************************/
+.cloudLabel li span {
+	font-size: 1.2em;
+}
+/**************************/
+
+.label1{
+	background-color: #15dac9;
+	border-color: #15dac9;
+}
+
+.label2{
+	background-color: #ff7f50;
+	border-color: #ff7f50;
+}
+
+.label3{
+	background-color: #069385;
+	border-color: #069385;
+}
+
+.label4{
+	background-color: #d7e643;
+	border-color: #d7e643;
+}
+
+.label5{
+	background-color: #34495e;
+	border-color: #34495e;
+}
+
+.labelExtra{
+	border-width: 2px;
+	border-style: solid;
+}
+
+.labelActive{
+	background-color: #fff;
+}
+
+.icheckbox_square-blue{
+	background-color: #fff;
+}
+
+#focusPageList tr:nth-child(odd){
+	background-color: #d2f1bd;
+}
+
+#focusPageList tr:nth-child(even){
+	background-color: #63bc9f;
+}
+
+#focusPageList th{
+	background-color: #19988b;
+}
+
+#focusPageList{
+	border-color: #19988b;
+}
+
+#topicPageList tr:nth-child(odd){
+	background-color: #e7eff9;
+}
+
+#topicPageList tr:nth-child(even){
+	background-color: #a6c2e8;
+}
+
+#topicPageList th{
+	background-color: #7aa4dd;
+}
+
+#topicPageList{
+	border-color: #7aa4dd;
+}
+
+.topicList{
+	text-align: center;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.topicList th{
+	text-align: center;
+	color: #fff;
+}
+
+.pagination li a{
+	text-align: center;
+}
+
+.pagination li{
+	width: 32px;
+	height: 32px;
+	display: block;
+	float: left;
+}
+
+.pagination li a.pre, .pagination li a.next{
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+}
+
+.pagination li a.pre{
+	border-right-width: 7px;
+	border-right-style: solid;
+}
+
+.pagination li a.next{
+	border-left-width: 7px;
+	border-left-style: solid;
+}
+
+.cloudLabelRow span.pre, .cloudLabelRow span.next{
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	cursor: pointer;
+}
+
+.cloudLabelRow span.pre{
+	border-right: 15px solid #ff7f50;
+}
+
+.cloudLabelRow span.next{
+	border-left: 15px solid #ff7f50;
+}
+
+#topicPage .pagination li a.pre{
+	border-right-color: #7aa4dd;
+}
+
+#topicPage .pagination li a.next{
+	border-left-color: #7aa4dd;
+}
+
+#focusPage .pagination li a.pre{
+	border-right-color: #00c4b4;
+}
+
+#focusPage .pagination li a.next{
+	border-left-color: #00c4b4;
+}
+
+.pagination .active{
+	background-color: #eee;
+}
+
+.oddrows{
+	background: #f1fdbd;
+}
+
+#Searchresult{width:300px; height:100px; padding:20px; background:#f0f3f9;}
+
+#Span_FocusTagCloud{
+	border-left: 110px solid transparent;
+	border-right: 110px solid transparent;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	-moz-border-image: url(../images/subtitle.png) 0 110 0 110 stretch; /* ÀÏ°æ±¾µÄ Firefox */
+	-webkit-border-image: url(../images/subtitle.png) 0 110 0 110 stretch; /* Safari */
+	-o-border-image: url(../images/subtitle.png) 0 110 0 110 stretch; /* Opera */
+	border-image: url(../images/subtitle.png) 0 110 0 110 stretch;
+	text-align: center;
+}
+
+.generateTrendBtn{
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+#focusTrendGenerateBtn{
+	background: #19988b;
+	color: #fff;
+}
+
+#topicTrendGenerateBtn{
+	background: #7aa4dd;
+	color: #fff;
+}
+
+.loadingCover{
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 1em;
+}
+
+.loadingCover h4{
+	text-align: center;
+	font-size: 2em;
+	font-weight: bold;
+	color: #fff;
+}
+
+#GroupPortraitList{
+	border: 2px solid #00c4b4;
+	background-color: #fff;
+}
+
+#GroupPortraitList a{
+	color: #15dac9;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#GroupPortraitList a:hover{
+	color: #fff;
+	background-color: #00c4b4;
+}
+

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	
+	<!-- 内容分析模块 -->
+	<package name="basicinfo" extends="json-default">
+		<!-- 获取男女比例数据 -->
+      	<action name="UserGenderRate" class="nlp.sina.action.BasicInfoAction" method="UserGenderRate">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取网龄分布数据 -->
+      	<action name="UserWebAgeMap" class="nlp.sina.action.BasicInfoAction" method="UserWebAgeMap">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取用户认证类型数据 -->
+      	<action name="UserVerifyTypeMap" class="nlp.sina.action.BasicInfoAction" method="UserVerifyTypeMap">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取用户省份分布数据 -->
+      	<action name="UserProvinceMap" class="nlp.sina.action.BasicInfoAction" method="UserProvinceMap">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取用户省份分布数据 -->
+      	<action name="UserCountryMap" class="nlp.sina.action.BasicInfoAction" method="UserCountryMap">
+        	<result type="json"></result>
+      	</action>
+	</package>
+	
+	
+	<!-- 行为分析模块 -->
+	<package name="behaviour" extends="json-default">
+		<!-- 获取微博发布形式数据 -->
+      	<action name="WeiboReleaseForm" class="nlp.sina.action.BehaviourAction" method="WeiboReleaseForm">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取手机硬件来源分布数据 -->
+      	<action name="WeiboPhoneBrandMap" class="nlp.sina.action.BehaviourAction" method="WeiboPhoneBrandMap">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取软件来源分布数据 -->
+      	<action name="WeiboSourceNameMap" class="nlp.sina.action.BehaviourAction" method="WeiboSourceNameMap">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取微博时间段分布数据 -->
+      	<action name="WeiboTimePeriodMap" class="nlp.sina.action.BehaviourAction" method="WeiboTimePeriodMap">
+        	<result type="json"></result>
+      	</action>
+    </package>
+    
+    
+	<!-- 内容分析模块 -->
+	<package name="content" extends="json-default">
+	    <!--  微博内容分析模块的基本信息，如转发率和原创率等 -->
+		<action name="BasicInfo" class="nlp.sina.action.ContentAction" method="BasicInfo">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取话题的关键词云图 -->
+      	<action name="GenerateFocusTagCloud" class="nlp.sina.action.ContentAction" method="GenerateFocusTagCloud">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取所有话题的关键词云图 -->
+      	<action name="GenerateFocusTagCloud_All" class="nlp.sina.action.ContentAction" method="GenerateFocusTagCloud_All">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取抽取的话题 -->
+      	<action name="FatchExtractedFocusList" class="nlp.sina.action.ContentAction" method="FatchExtractedFocusList">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 对于选定的某些话题，做时间走势图 -->
+      	<action name="SelectedFocusTrend" class="nlp.sina.action.ContentAction" method="SelectedFocusTrend">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取微话题 -->
+      	<action name="FatchTopicList" class="nlp.sina.action.ContentAction" method="FatchTopicList">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 对于选定的某些微话题，做时间走势图 -->
+      	<action name="SelectedTopicTrend" class="nlp.sina.action.ContentAction" method="SelectedTopicTrend">
+        	<result type="json"></result>
+      	</action>
+      	
+      	
+    </package>
+    
+    
+    <!--  本体事件 -->
+    <package name="noumenon" extends="json-default">
+    	<!-- 正能量本体事件的的数据，包括（事件列表、每个事件的每天讨论数量），准备绘制事件走势图，基本统计图-->
+    	<action name="FatchPositiveEnergyNoumenon" class="nlp.sina.action.NoumenonAction" method="FatchPositiveEnergyNoumenon">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 心理本体事件的的数据，包括（事件列表、每个事件的每天讨论数量），准备绘制事件走势图，基本统计图-->
+      	<action name="FatchPsychologyNoumenon" class="nlp.sina.action.NoumenonAction" method="FatchPsychologyNoumenon">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 内容本体事件的的数据，包括（事件列表、每个事件的每天讨论数量），准备绘制事件走势图，基本统计图-->
+      	<action name="FatchContentNoumenon" class="nlp.sina.action.NoumenonAction" method="FatchContentNoumenon">
+        	<result type="json"></result>
+      	</action>
+      	
+      	<!-- 获取正能量事件的关键词云图 -->
+      	<action name="FatchPenergyEventTagData" class="nlp.sina.action.NoumenonAction" method="FatchPenergyEventTagData">
+        	<result type="json"></result>
+      	</action>
+      	
+      	<!-- 获取心理事件的关键词云图 -->
+      	<action name="FatchPsychologyEventTagData" class="nlp.sina.action.NoumenonAction" method="FatchPsychologyEventTagData">
+        	<result type="json"></result>
+      	</action>
+      	
+      	<!-- 获取预设话题事件的关键词云图 -->
+      	<action name="FatchPrefocusEventTagData" class="nlp.sina.action.NoumenonAction" method="FatchPrefocusEventTagData">
+        	<result type="json"></result>
+      	</action>
+    </package>
+    
+    
+    <package name="group_portrait" extends="json-default">
+		<!-- 根据关键词，搜索和此关键词相关的用户画像-->
+      	<action name="SearchGroupPortrait" class="nlp.sina.action.GroupPortraitAction" method="SearchGroupPortrait">
+        	<result type="json"></result>
+      	</action>
+      	<!-- 获取已经弄好的用户画像列表 -->
+      	<action name="FatchGroupPortraitList" class="nlp.sina.action.GroupPortraitAction" method="FatchGroupPortraitList">
+        	<result type="json"></result>
+      	</action>
+    </package>
+</struts>
