@@ -38,6 +38,159 @@ nav.main a:hover, nav.main a.current
 	padding-top: 0.5em;
 }
 
+div#_content{
+
+}
+
+#nav_cats{
+	width: 153px;
+	padding: 5px 0 10px;
+	float: left;
+}
+
+#nav_subcats {
+	position: absolute;
+	left: 153px;
+	width: 600px;
+	min-height: 200px;
+	z-index: 100;
+}
+
+li.fir_nav{
+	width: 153px;
+}
+
+li.fir_nav h3{
+	height: 50px;
+	padding: 15px;
+	margin: 0px 0px 0px 3px;
+}
+
+li.fir_nav h3:hover, li.fir_nav h3.current{
+	margin: 0px;
+}
+
+.sec_nav{
+	width: 100%;
+	min-height: 200px;
+	padding: 10px;
+	overflow: hidden;
+	display: none;
+}
+
+.sec_nav li{
+	margin: 5px;
+	float: left;
+}
+
+.sec_nav a{
+	padding: 0 5px 5px;
+}
+
+.sec_nav h4{
+	height: 35px;
+	padding:5px 5px;
+}
+
+.sec_nav_ul{
+	width: 100%;
+	min-height: 30px;
+	overflow: hidden;
+}
+
+/**********************/
+#nav_cats_wrap{
+	position: relative;
+	width: 153px;
+	min-height: 400px;
+	float: left; 
+}
+
+#_main{
+	width: 847px;
+	float: right; 
+}
+
+ul#crumbs{
+	width: 100%;
+	height: 30px;
+	left: 335px;
+}
+
+ul#crumbs li a {
+	display: block;
+	float: left;
+	height: 30px;
+	padding: 5px 10px 0 25px;
+	position: relative;
+	margin: 0 10px 0 0; 
+}
+
+ul#crumbs li a:after {
+	content: "";  
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	position: absolute; 
+	right: -15px; 
+	top: 0;	
+	overflow: hidden;
+	z-index: 2; 
+}
+
+
+ul#crumbs li a:before {
+	content: "";  
+	border-top: 15px solid transparent;
+	border-bottom: 15px solid transparent;
+	border-left: 15px solid #f1fdbd;
+	position: absolute; 
+	left: 0; 
+	top: 0;
+	z-index: 1; 
+}
+
+ul#crumbs li:first-child a{
+	padding-right: 15px;
+}
+
+ul#crumbs li:first-child a:after{
+	border-left: 15px solid #f98b18;
+}
+
+ul#crumbs li:first-child a:before {
+	display: none; 
+}
+
+ul#crumbs li:nth-child(2) a:after{
+	border-left: 15px solid #ff8041;
+}
+
+ul#crumbs li:nth-child(3) a:after{
+	border-left: 15px solid #19988b;
+}
+
+ul#crumbs li:nth-child(4) a:after{
+	border-left: 15px solid #7aa4dd;
+}
+
+ul#crumbs li:nth-child(5) a:after{
+	border-left: 15px solid #3498db;
+}
+
+ul#crumbs li:nth-child(6) a:after{
+	border-left: 15px solid #40e0d0;
+}
+
+ul#crumbs li:nth-child(7) a:after{
+	border-left: 15px solid #00fa9a;
+}
+
+/***********************/
+
+#college_sub a{
+	padding-top: 3px;
+}
+
 .rowline{
 	width: 100%;
 	min-height:400px;
@@ -172,7 +325,7 @@ ul#_tab li a{
 
 #WeiboTimePeriodMap div.chart{
 	width: 80%;
-	margin: 20px 70px 70px 70px;;
+	margin: 20px 70px 70px 70px;
 }
 
 #UserRelationshipMap div.chart{
@@ -206,13 +359,13 @@ ul#_tab li a{
 
 #PsychologyEventStatistics div.chart{
 	width: 60%;
-	margin: 30 auto;
+	margin: 30px auto;
 }
 
 #PsychologyEventTrend div.chart{
 	width: 100%;
 	height: 350px;
-	margin: 50 auto;
+	margin: 50px auto;
 }
 
 #PsyEventTagCloud .cloudLabelUl{
@@ -221,13 +374,13 @@ ul#_tab li a{
 
 #PEEventStatistics div.chart{
 	width: 80%;
-	margin: 30 auto;
+	margin: 30px auto;
 }
 
 #PEEventTren div.chart{
 	width: 100%;
 	height: 350px;
-	margin: 50 auto;
+	margin: 50px auto;
 }
 
 .labelExtra{
@@ -452,4 +605,63 @@ h3#Span_FocusTagCloud{
 #GroupPortraitList li{
 	height: 35px;
 	line-height: 30px;
+}
+
+div#result div.chart{
+	height: 305px;
+
+}
+
+#result .hiddenChart{
+	display: none;
+}
+
+#result .showChart{
+	display: block;
+}
+
+#result div#WeiboPhoneBrandMap div.chart{
+	width: 50%;
+	height: 400px;
+	margin: 0px 0px 0px 0px;
+	float: left;
+}
+
+#result div#WeiboSourceNameMap div.chart{
+	width: 50%;
+	height: 400px;
+	margin: 0px 0px 0px 0px;
+	float: left;
+}
+
+#result div#WeiboTimePeriodMap div.chart{
+	width: 80%;
+	margin: 20px auto;
+}
+
+#result h3 span{
+	visibility: hidden;
+}
+
+
+#result div#WeiboReleaseForm div.chart{
+	height: 450px;
+	width: 95%;
+	margin: 20px auto;
+}
+
+#school_sub li{
+	width: 230px;
+}
+
+#school_sub ul{
+	height: 200px;
+}
+
+#period_sub>span{
+	padding: 10px;
+}
+
+#period_sub span, #period_sub input{
+	height: 30px;
 }

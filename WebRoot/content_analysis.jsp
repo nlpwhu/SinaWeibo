@@ -18,6 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/content.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			var oriData = "{\"schoolProvince\": \"\", \"schoolCity\": \"\", \"schoolName\": \"\", \"gender\": \"\", \"date_start\": \"\", \"date_end\": \"\"}";
 			var offy = $("#tab_div").offset().top;
 			//var oriWidth = $("#tab_div").width();
 			$(document).scroll(function(){
@@ -36,14 +37,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 			//var tabID=['BasicInfo','PresetFocus','ExtractFocus','Topics'];
 
-			var pageSize=10;
-			var pageCount=15;
-			var curPage=1;      //当前页号
-			var focusList=[];
-			var topicList=[];
+
 			mytab();
-			focusList = FatchExtractedFocusList();
-			topicList = FatchTopicList();
+			dataReady(oriData);
 			
 			$("#tab li a").click(function(){
 				var id = $(this).attr("id").substr(4);
@@ -54,18 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				mytab(id);
 				return false;
 			});
-			
-			$(".cloudLabelUl li a").click(function(){
-				var idx = $(this).parent("li").index();
-				GenerateEventTagCloud(idx);
-				if ($(this).children("span").hasClass("labelActive"))
-				{
-					return false;
-				}
-				changeCloudLabelColor($(this));
-				return false;
-			});
-						
+									
 			$("#page_ul li a").click(function(){
 				var obj = $("#focusPageList").is(":visible")? "Focus":"Topic";
 				var idx = $(this).parent("li").index();
@@ -81,129 +66,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				return false;
 			});
 			
-			$("#focusTrendGenerateBtn").click(SelectedFocusTrend_Submit);
+			$("#focusTrendGenerateBtn").click(function(){
+				SelectedFocusTrend_Submit(oriData);
+			});
 			
-			$("#topicTrendGenerateBtn").click(SelectedTopicTrend_Submit);
+			$("#topicTrendGenerateBtn").click(function(){
+				SelectedTopicTrend_Submit(oriData);
+			});
 			
-			function changeCloudLabelColor(obj)
-			{
-				var changed = $("#EventTagCloud");
-				var colorToDo = obj.children("span").css("border-color");
-				var left = (obj.offset().left - changed.offset().left) * 100 / changed.width();
-				changed.css("border-color", colorToDo);
-				$('style').append(".topArrowFrom::before{  left: "+left.toFixed(1)+"%; border-bottom-color: "+colorToDo+"}.topArrowFrom::after{  left: "+(Number(left.toFixed(1))+1)+"%;}.labelActiveStyle{	color: "+colorToDo+";	border-color: "+colorToDo+"; }");
-				
-				obj.parents("ul").find("span").filter(function(){
-					return ($(this).hasClass("labelActive") && $(this).hasClass("labelActiveStyle"));
-				}).toggleClass("labelActive").toggleClass("labelActiveStyle");
-				obj.children("span").toggleClass("labelActive").toggleClass("labelActiveStyle");
-			}
-
 			function mytab(tabID){
 				switch(tabID)
 					{
 					case 'BasicInfo':
 					default:
-						BasicInfo();
+						BasicInfo(oriData);
 						break;
 					case 'PresetFocus':
-						PresetFocusAnalysis();
-						changeCloudLabelColor($(".label1").parents("a"));
+						showPreset(oriData);
 						break;
 					case 'ExtractFocus':
-						curPage=1;
-						$("#focusPage #page_ul li a").filter(function(){
-							return $(this).hasClass("active");
-						}).toggleClass("active");
-						$("#focusPage #page_ul li a").eq(curPage).addClass("active");
-						SelectedFocusTrend("");
-						GenerateFocusTagCloud_All();
-						ShowList("Focus", curPage);
+						showFocus(oriData);
 						break;
 					case 'Topics':
-						curPage=1;
-						$("#topicPage #page_ul li a").filter(function(){
-							return $(this).hasClass("active");
-						}).toggleClass("active");
-						$("#topicPage #page_ul li a").eq(curPage).addClass("active");
-						SelectedTopicTrend("");
-						ShowList("Topic", curPage);
+						showTopic(oriData);
 						break;
 					}
 			}
 
-
-			function ShowList(objStr, pageIndex){
-				var obj = $("#"+objStr.toLowerCase()+"PageList");
-				if(pageIndex=='pri'){
-					pageIndex=curPage-1;
-					if(pageIndex<=0){
-						alert('已经第一页了');
-						return;
-					}
-				}
-				else if(pageIndex=='next'){
-					pageIndex=curPage+1;
-					if(pageIndex>pageCount){
-						alert('已经最后一页了');
-						return;
-					}
-				}
-				obj.html("");
-				var index=(pageIndex-1)*pageSize;
-				
-				var li_ColumnTitle="<thead><tr>" +
-									"<th>序号</th>" +
-									"<th>话题名称</th>" +
-									"<th>起始时间</th>" +
-									"<th>结束时间</th>" +
-									"<th>微博讨论数量</th>" +
-									"</tr></thead>" +
-									"<tbody>";
-									
-				obj.append(li_ColumnTitle);
-				
-				var dataList = focusList;
-				if (objStr == "Topic")
-				{
-					dataList = topicList;
-				}
-				for(var i=0 ; i<pageSize; i++){
-					var rowNum = index + i;
-					var rowId = dataList[rowNum].id;
-					var rowName = dataList[rowNum].name;
-					var totalFreq = dataList[rowNum].totalFreq;
-					var date_start = dataList[rowNum].date_start;
-					var date_end = dataList[rowNum].date_end;
-					var li_content = "<tr>" +
-									"<td class=\"rowId\"><input type='checkbox' name='Selected" + objStr + "' value='" + rowId + "' /><span>" + (rowNum+1) + "</span></td>" +
-									"<td><a href=''>" + rowName + "</a></td>" +
-									"<td>" + date_start + "</td>" +
-									"<td>" + date_end + "</td>" +
-									"<td>" + totalFreq + "</td>" +
-									"</tr>";
-					
-					obj.append(li_content);
-				}
-				obj.append("</tbody>");
-
-				obj.next("#page_ul").children("li").children("a").eq(curPage).toggleClass("active");
-				curPage = pageIndex;
-				obj.next("#page_ul").children("li").children("a").eq(curPage).toggleClass("active");
-				if (objStr == "Focus")
-				{
-					GenerateFocusTagCloud(focusList[index].id,focusList[index].name);
-					$("#focusPageList a").click(focusPageLinks);
-				}
-				else
-				{
-					$("#topicPageList a").click(function(){ return false; });
-				}
-				$('input').iCheck({
-					checkboxClass: 'icheckbox_square-blue',
-				});
-
-			}
 		});	
 		
 
@@ -260,7 +149,7 @@ function replaceAll(obj,str1,str2){
 					<!--原BasicInfo_Statistics-->
 					<h2><span>基本数量统计图</span></h2>
 					<div class="chart"></div>
-					<img src="<%=request.getContextPath()%>/images/contentBasicIcon.png" />
+					<img src="<%=request.getContextPath()%>/img/contentBasicIcon.png" />
 				</div>
 			</div>
 			<div id="PresetFocus" class="hiddentab">
@@ -268,7 +157,7 @@ function replaceAll(obj,str1,str2){
 					<!--原PresetFocusStatistics-->
 					<h2><span>预设话题基本统计图</span></h2>
 					<div class="chart"></div>
-					<img src="<%=request.getContextPath()%>/images/contentPreset.png" />
+					<img src="<%=request.getContextPath()%>/img/contentPreset.png" />
 				</div>
 				<div id="PresetFocusTrend" class="rowline">
 					<h2><span>预设话题走势图</span></h2>

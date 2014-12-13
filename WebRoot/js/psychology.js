@@ -2,9 +2,9 @@
 /*
  * 心理分析
  */
-function PsychologyAnalysis(){
+function PsychologyAnalysis(oriData){
 	/*		获取心理本体的数据		*/
-	var psychology = FatchPsychologyNoumenon();
+	var psychology = FatchPsychologyNoumenon(oriData);
 	
 	var eventList = psychology.eventList;
 	var dataReList = psychology.dataReList;
@@ -191,11 +191,20 @@ function PsychologyAnalysis(){
 	    ]
 	};
 	
-	var chartStatistics = echarts.init($('#PsychologyEventStatistics div.chart').get(0));	 
-	chartStatistics.setOption(optionStatistics);
-	var chartTrend = echarts.init($('#PsychologyEventTrend div.chart').get(0));	 
-	chartTrend.setOption(optionTrend);
+	if ($('#PsychologyEventStatistics div.chart').is(":visible")) {
+		var chartStatistics = echarts.init($('#PsychologyEventStatistics div.chart').get(0));	 
+		chartStatistics.setOption(optionStatistics);
+	}
+	if ($('#PsychologyEventTrend div.chart').is(":visible")) {
+		var chartTrend = echarts.init($('#PsychologyEventTrend div.chart').get(0));	 
+		chartTrend.setOption(optionTrend);
+	}
 	
-	GeneratePsychologyEventTagCloud(eventList[0].id);
+	GenerateEventTagCloud(eventList[0].id, $("#PsyEventTagCloud #EventTagCloud"), oriData);
 		
+}
+
+function initPsychology(oriData){
+	PsychologyAnalysis(oriData);
+	changeCloudLabelColor($(".cloudLabelUl li a").eq(0));
 }

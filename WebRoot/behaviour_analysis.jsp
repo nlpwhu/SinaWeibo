@@ -12,12 +12,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/behaviour.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			WeiboReleaseForm();
-			WeiboPhoneBrandMap();
+			var oriData = "{\"schoolProvince\": \"\", \"schoolCity\": \"\", \"schoolName\": \"\", \"gender\": \"\", \"date_start\": \"\", \"date_end\": \"\"}";
+			WeiboReleaseForm(oriData);
+			WeiboPhoneBrandMap(oriData);
 			
-		    WeiboSourceNameMap();
-			WeiboTimePeriodMap();
-			//UserRelationshipMap();
+			WeiboSourceNameMap(oriData);
+			WeiboTimePeriodMap(oriData);
+			UserRelationshipMap(oriData);
 			//UserWebAgeMap_New();
 			
 			var offy = $("#tab_div").offset().top;

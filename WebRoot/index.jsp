@@ -12,12 +12,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/basicinfo.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			UserGenderRate();
-			UserWebAgeMap();
+			var oriData = "{\"schoolProvince\": \"\", \"schoolCity\": \"\", \"schoolName\": \"\", \"gender\": \"\", \"date_start\": \"\", \"date_end\": \"\"}";
+			UserGenderRate(oriData);
+			UserWebAgeMap(oriData);
 			
-			UserVerifyTypeMap();
-			UserProvinceMap();
-			UserCountryMap();
+			UserVerifyTypeMap(oriData);
+			UserProvinceMap(oriData);
+			UserCountryMap(oriData);
 			//UserWebAgeMap_New();
 			
 			var offy = $("#tab_div").offset().top;

@@ -8,12 +8,13 @@
  * 返回类型：json
  * 返回数据：json.binfo，这是个类对象，参考BasicInfo
  */
-function BasicInfo(){
+function BasicInfo(oriData){
 	$.ajax({
 		async : false,
 		url : 'BasicInfo.action',
-		type : 'GET',
+		type : 'POST',
 		dataType: 'json',
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var binfo = json.binfo;
 			var option = {
@@ -64,9 +65,10 @@ function BasicInfo(){
 			        }
 			    ]
 			};
-			var chart = echarts.init($('#ForwardOriginalMap div.chart').get(0));	 
-			chart.setOption(option);
-			
+			if ($('#ForwardOriginalMap div.chart').is(":visible")) {
+				var chart = echarts.init($('#ForwardOriginalMap div.chart').get(0));	 
+				chart.setOption(option);
+			}
 			option = {
 /* 				title : {
 			    	text: '基本数量统计图',
@@ -118,9 +120,10 @@ function BasicInfo(){
 			    ]
 			};                    
 			
-			chart = echarts.init($('#BasicQuantityMap div.chart').get(0));	 
-			chart.setOption(option);
-			
+			if ($('#BasicQuantityMap div.chart').is(":visible")) {
+				chart = echarts.init($('#BasicQuantityMap div.chart').get(0));	 
+				chart.setOption(option);
+			}
 		},
 		error : function(a, b) {
 			alert("可能由于网络原因，获取预设话题失败，请联系管理员");
@@ -132,186 +135,189 @@ function BasicInfo(){
  * 预设话题分析其实就是对应于内容本体的分析
  *
  */
-function PresetFocusAnalysis(){
+function PresetFocusAnalysis(oriData){
 	/*		获取内容本体的数据		*/
-	var preFocus = FatchContentNoumenon();
-	var eventList = preFocus.eventList;
-	var dataReList = preFocus.dataReList;
-	var optionStatistics = {
-/* 	    title : {
+			var preFocus = FatchContentNoumenon(oriData);
+			var eventList = preFocus.eventList;
+			var dataReList = preFocus.dataReList;
+			var optionStatistics = {
+	/* 	    title : {
 	        text: '预设话题基本统计图',
 	        subtext: '季度数据',
 	        x:'center'
 	    },
- */	    tooltip : {
-	        trigger: 'item',
-	        formatter: "{a} <br/>{b} : {c} ({d}%)"
-	    },
-	    legend: {
-	        orient : 'vertical',
-	        x : 'left',
-	        data:[eventList[0].name,eventList[1].name,eventList[2].name,eventList[3].name,eventList[4].name]
-	    },
-/* 	    toolbox: {
-	        show : true,
-	        feature : {
-	            mark : {show: true},
-	            dataView : {show: true, readOnly: false},
-	            restore : {show: true},
-	            saveAsImage : {show: true}
-	        }
-	    },
-	    calculable : true,
- */	    series : [
-	        {
-	            name:'预设话题',
-	            type:'pie',
-	            radius : '60%',
-	            center: ['50%', '65%'],
-	            data:[
-	                {value:eventList[0].statusCount, name:eventList[0].name},
-	                {value:eventList[1].statusCount, name:eventList[1].name},
-	                {value:eventList[2].statusCount, name:eventList[2].name},
-	                {value:eventList[3].statusCount, name:eventList[3].name},
-	                {value:eventList[4].statusCount, name:eventList[4].name}
-	            ]
-	        }
-	    ]
-	};
-		                    
-	var optionTrend = {
-	    title : {
-	        text: '',
-	        subtext: '季度数据'
-	    },
-	    tooltip : {
-	        trigger: 'axis'
-	    },
-	    legend: {
-	        data:[eventList[0].name,eventList[1].name,eventList[2].name,eventList[3].name,eventList[4].name]
-	    },
-	    toolbox: {
-	        show : true,
-	        feature : {
-	        	dataZoom : {show: true},
-	            dataView : {show: true, readOnly: false},
-	            restore : {show: true},
-	            saveAsImage : {show: true}
-	        }
-	    },
-	    dataZoom : {
-	        show : true,
-	        realtime: true,
-	        start : 0,
-	        end : 100
-	    },
-	    calculable : true,
-	    xAxis : [
-	        {
-	            type : 'category',
-	            boundaryGap : false,
-	            data : preFocus.timeArray
-	        }
-	    ],
-	    yAxis : [
-	        {
-	            type : 'value',
-	            axisLabel : {
-	                formatter: '{value}'
-	            }
-	        }
-	    ],
-	    series : [
-	        {
-	            name:eventList[0].name,
-	            type:'line',
-	            data:dataReList[0],
-	            markPoint : {
-	                data : [
-	                    {type : 'max', name: '最大值'},
-	                    {type : 'min', name: '最小值'}
-	                ]
-	            },
-	            markLine : {
-	                data : [
-	                    {type : 'average', name: '平均值'}
-	                ]
-	            }
-	        },
-	        {
-	            name:eventList[1].name,
-	            type:'line',
-	            data:dataReList[1],
-	            markPoint : {
-	                data : [
-	                    {type : 'max', name: '最大值'},
-	                    {type : 'min', name: '最小值'}
-	                ]
-	            },
-	            markLine : {
-	                data : [
-	                    {type : 'average', name : '平均值'}
-	                ]
-	            }
-	        },
-	        {
-	            name:eventList[2].name,
-	            type:'line',
-	            data:dataReList[2],
-	            markPoint : {
-	                data : [
-	                    {type : 'max', name: '最大值'},
-	                    {type : 'min', name: '最小值'}
-	                ]
-	            },
-	            markLine : {
-	                data : [
-	                    {type : 'average', name : '平均值'}
-	                ]
-	            }
-	        },
-	        {
-	            name:eventList[3].name,
-	            type:'line',
-	            data:dataReList[3],
-	            markPoint : {
-	                data : [
-	                    {type : 'max', name: '最大值'},
-	                    {type : 'min', name: '最小值'}
-	                ]
-	            },
-	            markLine : {
-	                data : [
-	                    {type : 'average', name : '平均值'}
-	                ]
-	            }
-	        },
-	        {
-	            name:eventList[4].name,
-	            type:'line',
-	            data:dataReList[4],
-	            markPoint : {
-	                data : [
-	                    {type : 'max', name: '最大值'},
-	                    {type : 'min', name: '最小值'}
-	                ]
-	            },
-	            markLine : {
-	                data : [
-	                    {type : 'average', name : '平均值'}
-	                ]
-	            }
-	        }
-	    ]
-	};
-	
-	var chartStatistics = echarts.init($('#PresetFocusAnalysis div.chart').get(0));	 
-	chartStatistics.setOption(optionStatistics);
-	var chartTrend = echarts.init($('#PresetFocusTrend div.chart').get(0));	 
-	chartTrend.setOption(optionTrend);
-	
-	GeneratePrefocusEventTagCloud(eventList[0].id);
-		
+		 */	    tooltip : {
+			        trigger: 'item',
+			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+			    },
+			    legend: {
+			        orient : 'vertical',
+			        x : 'left',
+			        data:[eventList[0].name,eventList[1].name,eventList[2].name,eventList[3].name,eventList[4].name]
+			    },
+		/* 	    toolbox: {
+			        show : true,
+			        feature : {
+			            mark : {show: true},											
+			            dataView : {show: true, readOnly: false},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+			    calculable : true,
+		 */	    series : [
+			        {
+			            name:'预设话题',
+			            type:'pie',
+			            radius : '60%',
+			            center: ['50%', '65%'],
+			            data:[
+			                {value:eventList[0].statusCount, name:eventList[0].name},
+			                {value:eventList[1].statusCount, name:eventList[1].name},
+			                {value:eventList[2].statusCount, name:eventList[2].name},
+			                {value:eventList[3].statusCount, name:eventList[3].name},
+			                {value:eventList[4].statusCount, name:eventList[4].name}
+			            ]
+			        }
+			    ]
+			};
+				                    
+			var optionTrend = {
+			    title : {
+			        text: '',
+			        subtext: '季度数据'
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			        data:[eventList[0].name,eventList[1].name,eventList[2].name,eventList[3].name,eventList[4].name]
+			    },
+			    toolbox: {
+			        show : true,
+			        feature : {
+			        	dataZoom : {show: true},
+			            dataView : {show: true, readOnly: false},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+			    dataZoom : {
+			        show : true,
+			        realtime: true,
+			        start : 0,
+			        end : 100
+			    },
+			    calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            boundaryGap : false,
+			            data : preFocus.timeArray
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value',
+			            axisLabel : {
+			                formatter: '{value}'
+			            }
+			        }
+			    ],
+			    series : [
+			        {
+			            name:eventList[0].name,
+			            type:'line',
+			            data:dataReList[0],
+			            markPoint : {
+			                data : [
+			                    {type : 'max', name: '最大值'},
+			                    {type : 'min', name: '最小值'}
+			                ]
+			            },
+			            markLine : {
+			                data : [
+			                    {type : 'average', name: '平均值'}
+			                ]
+			            }
+			        },
+			        {
+			            name:eventList[1].name,
+			            type:'line',
+			            data:dataReList[1],
+			            markPoint : {
+			                data : [
+			                    {type : 'max', name: '最大值'},
+			                    {type : 'min', name: '最小值'}
+			                ]
+			            },
+			            markLine : {
+			                data : [
+			                    {type : 'average', name : '平均值'}
+			                ]
+			            }
+			        },
+			        {
+			            name:eventList[2].name,
+			            type:'line',
+			            data:dataReList[2],
+			            markPoint : {
+			                data : [
+			                    {type : 'max', name: '最大值'},
+			                    {type : 'min', name: '最小值'}
+			                ]
+			            },
+			            markLine : {
+			                data : [
+			                    {type : 'average', name : '平均值'}
+			                ]
+			            }
+			        },
+			        {
+			            name:eventList[3].name,
+			            type:'line',
+			            data:dataReList[3],
+			            markPoint : {
+			                data : [
+			                    {type : 'max', name: '最大值'},
+			                    {type : 'min', name: '最小值'}
+			                ]
+			            },
+			            markLine : {
+			                data : [
+			                    {type : 'average', name : '平均值'}
+			                ]
+			            }
+			        },
+			        {
+			            name:eventList[4].name,
+			            type:'line',
+			            data:dataReList[4],
+			            markPoint : {
+			                data : [
+			                    {type : 'max', name: '最大值'},
+			                    {type : 'min', name: '最小值'}
+			                ]
+			            },
+			            markLine : {
+			                data : [
+			                    {type : 'average', name : '平均值'}
+			                ]
+			            }
+			        }
+			    ]
+			};
+			
+			if ($('#PresetFocusAnalysis div.chart').is(":visible")) {
+				var chartStatistics = echarts.init($('#PresetFocusAnalysis div.chart').get(0));	 
+				chartStatistics.setOption(optionStatistics);
+			}
+			if ($('#PresetFocusTrend div.chart').is(":visible")) {
+				var chartTrend = echarts.init($('#PresetFocusTrend div.chart').get(0));	 
+				chartTrend.setOption(optionTrend);
+			}
+			
+			GenerateEventTagCloud(eventList[0].id, $("#KeyWordsMap #EventTagCloud"), oriData);
 }
 
 /**
@@ -321,14 +327,16 @@ function PresetFocusAnalysis(){
  * 返回类型：json
  * 返回数据：json.sfocus，这是个类对象，参考SelectedFocus
  */
-function SelectedFocusTrend(idListStr){
-	var data={"idListStr":idListStr, "date_start" : "", "date_end" : "", "schoolProvince" :"", "schoolCity" : "", "schoolName" : "", "gender" : ""};
+function SelectedFocusTrend(idListStr, oriData){
+	var data= JSON.parse(oriData);
+	data.idListStr = idListStr;
+	
 	$.ajax({
 		async : false,
 		url : 'SelectedFocusTrend.action',
-		type : 'post',
-		data : data,
+		type: 'POST',
 		dataType: 'json',
+		data: data,
 		success : function(json, status) {
 			var sfocus = json.sfocus;
 			var focusList = sfocus.focusList;
@@ -408,11 +416,11 @@ function SelectedFocusTrend(idListStr){
 	});
 }
 
-function focusPageLinks(){
+function focusPageLinks(oriData){
 	console.log("on");
 	var idx = $(this).parents("tr").find("td.rowId input").val();
 	var rowName = $(this).html();
-	GenerateFocusTagCloud(idx,rowName);
+	GenerateFocusTagCloud(idx,rowName, oriData);
 	return false;
 };
 
@@ -424,14 +432,15 @@ function focusPageLinks(){
  * 返回类型：json
  * 返回数据：json.keywordList，关键词数组，其元素对象nlp.sina.model.KeyWord
  */
-function GenerateFocusTagCloud(focusId,showName){
+function GenerateFocusTagCloud(focusId,showName, oriData){
 	$("#FocusTagCloud").prevAll(".loadingCover").show();
 	$("#FocusTagCloud").html("");
 	$.ajax({
 		async : false,
 		url : 'GenerateFocusTagCloud.action?focusId='+focusId,
-		type : 'GET',
+		type: 'POST',
 		dataType: 'json',
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var keywordList = json.keywordList ;
 			var word_list = [];
@@ -462,13 +471,14 @@ function GenerateFocusTagCloud(focusId,showName){
  * 返回类型：json
  * 返回数据：json.keywordList，关键词数组，其元素对象nlp.sina.model.KeyWord
  */
-function GenerateFocusTagCloud_All(){
+function GenerateFocusTagCloud_All(oriData){
 	$("#FocusTagCloud_All").html("");
 	$.ajax({
 		async : false,
 		url : 'GenerateFocusTagCloud_All.action',
-		type : 'GET',
+		type: 'POST',
 		dataType: 'json',
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var keywordList = json.keywordList ;
 			var word_list = [];
@@ -496,13 +506,14 @@ function GenerateFocusTagCloud_All(){
  * 返回类型：json
  * 返回数据：json.focusList，话题列表，其元素参考nlp.sina.model.Focus
  */
-function FatchExtractedFocusList(){
+function FatchExtractedFocusList(oriData){
 	var focusList=[];
 	$.ajax({
 		async : false,
 		url : 'FatchExtractedFocusList.action',
-		type : 'GET',
+		type : 'POST',
 		dataType: 'json',
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			focusList = json.focusList;
 		},
@@ -519,12 +530,13 @@ function FatchExtractedFocusList(){
  * 返回类型：json
  * 返回数据：json.stopic，这是个类对象，参考SelectedTopic
  */
-function SelectedTopicTrend(idListStr){
-	var data={"idListStr":idListStr, "date_start" : "", "date_end" : "", "schoolProvince" :"", "schoolCity" : "", "schoolName" : "", "gender" : ""};
+function SelectedTopicTrend(idListStr, oriData){
+	var data= JSON.parse(oriData);
+	data.idListStr = idListStr;
 	$.ajax({
 		async : false,
 		url : 'SelectedTopicTrend.action',
-		type : 'post',
+		type: 'POST',
 		data : data,
 		dataType: 'json',
 		success : function(json, status) {
@@ -612,13 +624,14 @@ function SelectedTopicTrend(idListStr){
  * 返回类型：json
  * 返回数据：json.topicList，微话题列表，其元素参考类对象Topic
  */
-function FatchTopicList(){
+function FatchTopicList(oriData){
 	var topicList=[];
 	$.ajax({
 		async : false,
 		url : 'FatchTopicList.action',
-		type : 'GET',
+		type: 'POST',
 		dataType: 'json',
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			topicList = json.topicList;
 		},
@@ -629,7 +642,7 @@ function FatchTopicList(){
 	return topicList;
 }
 
-function SelectedTopicTrend_Submit(){  
+function SelectedTopicTrend_Submit(oriData){  
 	  var idListStr ='';    
 	  $('input[name="SelectedTopic"]:checked').each(function(){    
 		  idListStr+=($(this).val())+',';    
@@ -637,10 +650,11 @@ function SelectedTopicTrend_Submit(){
 	  if(idListStr=='')
 		  alert('你还没有选择任何内容！');
 	  else{
-		  SelectedTopicTrend(idListStr);
+		  SelectedTopicTrend(idListStr, oriData);
 	  }
 }  
-function SelectedFocusTrend_Submit(){
+
+function SelectedFocusTrend_Submit(oriData){
 	var idListStr ='';    
 	  $('input[name="SelectedFocus"]:checked').each(function(){    
 		  idListStr+=($(this).val())+',';    
@@ -648,6 +662,122 @@ function SelectedFocusTrend_Submit(){
 	  if(idListStr=='')
 		  alert('你还没有选择任何内容！');
 	  else{
-		  SelectedFocusTrend(idListStr);
+		  SelectedFocusTrend(idListStr, oriData);
 	  }
 }
+
+	var pageSize=10;
+	var pageCount=15;
+	var curPage=1;      //当前页号
+	var focusList=[];
+	var topicList=[];
+function dataReady(oriData)
+{
+	if (focusList.length < 1) {
+		focusList = FatchExtractedFocusList(oriData);
+	}
+	if (topicList.length < 1) {
+		topicList = FatchTopicList(oriData);
+	}
+}
+
+function showPreset(oriData)
+{
+	PresetFocusAnalysis(oriData);
+	changeCloudLabelColor($(".label1").parents("a"));
+}
+
+function showTopic(oriData){
+	curPage=1;
+	$("#topicPage #page_ul li a").filter(function(){
+		return $(this).hasClass("active");
+	}).toggleClass("active");
+	$("#topicPage #page_ul li a").eq(curPage).addClass("active");
+	SelectedTopicTrend("", oriData);
+	ShowList("Topic", curPage, oriData);
+
+}
+
+function showFocus(oriData){
+	curPage=1;
+	$("#focusPage #page_ul li a").filter(function(){
+		return $(this).hasClass("active");
+	}).toggleClass("active");
+	$("#focusPage #page_ul li a").eq(curPage).addClass("active");
+	SelectedFocusTrend("", oriData);
+	GenerateFocusTagCloud_All(oriData);
+	ShowList("Focus", curPage, oriData);
+}
+		
+function ShowList(objStr, pageIndex, oriData){
+	var obj = $("#"+objStr.toLowerCase()+"PageList");
+	if(pageIndex=='pri'){
+		pageIndex=curPage-1;
+		if(pageIndex<=0){
+			alert('已经第一页了');
+			return;
+		}
+	}
+	else if(pageIndex=='next'){
+		pageIndex=curPage+1;
+		if(pageIndex>pageCount){
+			alert('已经最后一页了');
+			return;
+		}
+	}
+	obj.html("");
+	var index=(pageIndex-1)*pageSize;
+	
+	var li_ColumnTitle="<thead><tr>" +
+						"<th>序号</th>" +
+						"<th>话题名称</th>" +
+						"<th>起始时间</th>" +
+						"<th>结束时间</th>" +
+						"<th>微博讨论数量</th>" +
+						"</tr></thead>" +
+						"<tbody>";
+						
+	obj.append(li_ColumnTitle);
+	
+	var dataList = focusList;
+	if (objStr == "Topic")
+	{
+		dataList = topicList;
+	}
+	for(var i=0 ; i<pageSize; i++){
+		var rowNum = index + i;
+		var rowId = dataList[rowNum].id;
+		var rowName = dataList[rowNum].name;
+		var totalFreq = dataList[rowNum].totalFreq;
+		var date_start = dataList[rowNum].date_start;
+		var date_end = dataList[rowNum].date_end;
+		var li_content = "<tr>" +
+						"<td class=\"rowId\"><input type='checkbox' name='Selected" + objStr + "' value='" + rowId + "' /><span>" + (rowNum+1) + "</span></td>" +
+						"<td><a href=''>" + rowName + "</a></td>" +
+						"<td>" + date_start + "</td>" +
+						"<td>" + date_end + "</td>" +
+						"<td>" + totalFreq + "</td>" +
+						"</tr>";
+		
+		obj.append(li_content);
+	}
+	obj.append("</tbody>");
+
+	obj.next("#page_ul").children("li").children("a").eq(curPage).toggleClass("active");
+	curPage = pageIndex;
+	obj.next("#page_ul").children("li").children("a").eq(curPage).toggleClass("active");
+	if (objStr == "Focus")
+	{
+		GenerateFocusTagCloud(focusList[index].id,focusList[index].name, oriData);
+		$("#focusPageList a").click(focusPageLinks);
+	}
+	else
+	{
+		$("#topicPageList a").click(function(){ return false; });
+	}
+	$('input').iCheck({
+		checkboxClass: 'icheckbox_square-blue',
+	});
+
+}
+		

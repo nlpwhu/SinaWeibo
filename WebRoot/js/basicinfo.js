@@ -8,14 +8,13 @@
  * 返回格式：json
  * 返回数据：json.gender(gender是个对象，参考Gender类)
  */
-function UserGenderRate(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName":""}
+function UserGenderRate(oriData){
 	$.ajax({
 		async : false,
 		url : 'UserGenderRate.action',
 		type : 'POST',
 		dataType: 'json',
-		data: data,
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var gender = json.genderCount;
 			var option = {
@@ -45,9 +44,20 @@ function UserGenderRate(){
 			            type:'pie',
 			            radius : '60%',
 			            center: ['50%', '50%'],
+			            itemStyle: {
+							normal: {
+								label: {
+									textStyle: {
+										fontSize: 24,
+										fontFamily : '微软雅黑',
+										fontWeight : 'bolder'
+									}
+								}
+							}
+						},
 			            data:[
-			                {value:gender.maleCount, name:''},
-			                {value:gender.femaleCount, name:''}
+			                {value:gender.maleCount, name:'男'},
+			                {value:gender.femaleCount, name:'女'}
 			                
 			            ]
 			        }
@@ -68,14 +78,13 @@ function UserGenderRate(){
  * 返回类型：json
  * 返回数据：json.webAgeList(webAgeList是个数组，其元素webAge参考类对象WebAge)
  */
-function UserWebAgeMap(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName":""};
+function UserWebAgeMap(oriData){
 	$.ajax({
 		async : false,
 		url : 'UserWebAgeMap.action',
 		type : 'POST',
 		dataType: 'json',
-		data: data,
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var webAgeList = json.webAgeList;
 			var webAge=[];
@@ -182,12 +191,13 @@ function UserWebAgeMap(){
  * 返回格式：json
  * 返回数据：json.webAgeList(webAgeList是个数组，其元素webAge参考类对象WebAge)
  */
-function UserWebAgeMap_New(){ 
+function UserWebAgeMap_New(oriData){ 
 	$.ajax({
 		async : false,
 		url : 'UserWebAgeMap.action',
 		type : 'POST',
 		dataType: 'json',
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var webAgeList = json.webAgeList;
 			var nameArray=[];
@@ -301,15 +311,13 @@ function UserWebAgeMap_New(){
  * 返回格式：json
  * 返回数据：json.typeList，这是个数组，其元素参考类对象VerifyType
  */
-function UserVerifyTypeMap(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName":""};
-	console.log('hhh');
+function UserVerifyTypeMap(oriData){
 	$.ajax({
 		async : false,
 		url : 'UserVerifyTypeMap.action',
 		type : 'POST',
 		dataType: 'json',
-		data: data,
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var typeList = json.typeList;
 			var verifiedName=[];
@@ -395,15 +403,13 @@ function UserVerifyTypeMap(){
  * 返回类型：json
  * 返回数据：json.provinceList，这是个数组，其元素参考类对象Province
  */
-function UserProvinceMap(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName":""};
-
+function UserProvinceMap(oriData){
 	$.ajax({
 		async : false,
 		url : 'UserProvinceMap.action',
 		type : 'POST',
 		dataType: 'json',
-		data: data,
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var provinceList = json.provinceList;
 			var maxValue=0;
@@ -466,7 +472,7 @@ function UserProvinceMap(){
 			        }
 			    ]
 			};
-			var chart = echarts.init(document.getElementById('UserProvinceMap'));	 
+			var chart = echarts.init($('#UserProvinceMap div.chart').get(0));	 
 			chart.setOption(option);
 				                    
 		},
@@ -482,15 +488,13 @@ function UserProvinceMap(){
  * 返回类型：json
  * 返回数据：json.countryList，这是个数组，其元素参考类对象Country
  */
-function UserCountryMap(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName":""};
-
+function UserCountryMap(oriData){
 	$.ajax({
 		async : false,
 		url : 'UserCountryMap.action',
 		type : 'POST',
 		dataType: 'json',
-		data: data,
+		data: JSON.parse(oriData),
 		success : function(json, status) {
 			var countryList = json.countryList;
 			var maxValue=0;
@@ -732,7 +736,7 @@ function UserCountryMap(){
 			        }
 			    ]
 			};
-			var chart = echarts.init(document.getElementById('UserCountryMap'));	 
+			var chart = echarts.init($('#UserCountryMap div.chart').get(0));	 
 			chart.setOption(option);
 				                    
 		},
