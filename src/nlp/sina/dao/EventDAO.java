@@ -20,8 +20,8 @@ public class EventDAO {
 	/**
 	 * 函数作用：获取内容本体事件列表
 	 */
-	public List<Event> getEventList_Content(String schoolProvince, String schoolCity, String schoolName, String gender){
-		List<Event> eventList = new ArrayList<Event>();
+	public List<Event> getEventList_Content(String schoolProvince, String schoolCity, String schoolName, String gender, String startDate, String endDate){
+		/*List<Event> eventList = new ArrayList<Event>();
 		String sql = "select * from t_prefocus_map where schoolProvince = '%s' and schoolCity = '%s' and schoolName = '%s' and gender = '%s' order by prefocusId ";
 		sql = String.format(sql, schoolProvince, schoolCity, schoolName, gender);
 		System.out.println("查询t prefocus map:\n" + sql);
@@ -80,7 +80,41 @@ public class EventDAO {
                 e.printStackTrace();  
             }  
 		}
-		return eventList;
+		return eventList;*/
+		
+		List<Event> eventList = new ArrayList<Event>();
+		String queryCondition = processWhereQuery(schoolProvince, schoolCity, schoolName, gender);
+        if(queryCondition.trim().isEmpty()){
+    		queryCondition = "where t_prefocus.id = t_prefocus_status.prefocusId and createdDate between '%s' and '%s'";
+    	}
+    	else{
+    		queryCondition = queryCondition + " and t_prefocus.id = t_prefocus_status.prefocusId and createdDate between '%s' and '%s'";
+    	}
+    	String sqlPrefocus = "select prefocusId, name, count(*) as number from t_prefocus_status, t_prefocus " + queryCondition + " group by prefocusId order by prefocusId";
+    	sqlPrefocus = String.format(sqlPrefocus, startDate, endDate);
+    	System.out.println("在预设话题总表里面统计各个话题的数量\n" + sqlPrefocus);
+    	Connection conn = DBUtil.getConn();
+    	Statement stmt = DBUtil.createStmt(conn);
+    	ResultSet rstp = DBUtil.getRs(stmt, sqlPrefocus);
+    	try {
+			while(rstp.next()){
+				int eventId = rstp.getInt("prefocusId");
+				String eventName = rstp.getString("name");
+				int statusCount = rstp.getInt("number");
+				//int type = rst.getInt("type");
+				Event event = new Event(eventName,eventId,statusCount);
+				eventList.add(event);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DBUtil.closeRs(rstp);
+			DBUtil.closeStmt(stmt);
+			DBUtil.closeConn(conn);
+		}
+    	
+    	return eventList;
 	}
 	/**
 	 * 函数作用：获取心理本体事件列表

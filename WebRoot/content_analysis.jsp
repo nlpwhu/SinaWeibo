@@ -50,7 +50,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				mytab(id);
 				return false;
 			});
-									
+
+			$(".cloudLabelUl li a").click(function(){
+				var idx = $(this).parent("li").index() + 1;
+				GeneratePrefocusEventTagCloud(idx);
+				if ($(this).children("span").hasClass("labelActive"))
+				{
+					return false;
+				}
+				changeCloudLabelColor($(this));
+				return false;
+			});
+
 			$("#page_ul li a").click(function(){
 				var obj = $("#focusPageList").is(":visible")? "Focus":"Topic";
 				var idx = $(this).parent("li").index();
