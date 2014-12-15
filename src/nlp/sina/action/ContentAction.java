@@ -95,11 +95,11 @@ public class ContentAction extends ActionSupport{
 	/*
 	 * 获取抽取到的相关话题列表
 	 */
-	public String FatchExtractedFocusList(){
+	/*public String FatchExtractedFocusList(){
 		FocusDAO dao = new FocusDAO();
 		focusList = dao.getFinallyFocusList(quarterId,0, Content_Configure.ExtractedFocusShowLimit);
 		return SUCCESS;
-	}
+	}*/
 	
 	/*
 	 * 获取选定话题的数据列表，用于绘制话题时间走势图
