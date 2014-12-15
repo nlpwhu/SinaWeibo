@@ -105,7 +105,6 @@ public class TopicDAO {
 	 */
 	public Map<String, Integer> getTopicDaysCount(String schoolProvince,String schoolCity,String schoolName, int topicId, String startDate, String endDate, String gender){
 		String sql = getTopicInfoQuery(schoolProvince, schoolCity, schoolName, topicId, startDate, endDate, gender);
-		System.out.println("haha"+sql);
 		Connection conn = DBUtil.getConn();
 		Statement stmt = DBUtil.createStmt(conn);
 		ResultSet rst = DBUtil.getRs(stmt, sql);

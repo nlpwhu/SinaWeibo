@@ -19,7 +19,7 @@ $(document).ready(function(){
 	FatchGroupPortraitList();
 	
 	$("#searchSubmit").click(function(){
-		var val = $("#keywordStr").val();
+		var val = $("keywordStr").val();
 		SearchGroupPortrait(val);
 	});
 });
@@ -48,7 +48,7 @@ $(document).ready(function(){
 		</div>
 		<div id="page_content">
 			<div id="Search" class="rowline oddrows">
-				<img src="<%=request.getContextPath()%>/images/search.png" alt="画像关键词搜索"/>
+				<img src="<%=request.getContextPath()%>/img/search.png" alt="画像关键词搜索"/>
 				<div id="searchRow">
 					<input type="text" id="keywordStr" />
 					<button id="searchSubmit" type="submit">搜索</button>

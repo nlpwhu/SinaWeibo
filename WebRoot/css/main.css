@@ -1,5 +1,5 @@
-.footer{ width:100%; height:41px; background:url(../images/footer.jpg) 0 0 repeat-x; clear:both; overflow:hidden; margin-top:8px;}
-.footerbg{ width:100%; height:41px; background:url(../images/footerbg.jpg) 0 0 no-repeat; margin:0px auto; line-height:30px; text-align:center; color:#fff;}
+.footer{ width:100%; height:41px; background:url(../img/footer.jpg) 0 0 repeat-x; clear:both; overflow:hidden; margin-top:8px;}
+.footerbg{ width:100%; height:41px; background:url(../img/footerbg.jpg) 0 0 no-repeat; margin:0px auto; line-height:30px; text-align:center; color:#fff;}
 
 ul li{ list-style:none;}
 

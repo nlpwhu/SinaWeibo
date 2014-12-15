@@ -8,15 +8,13 @@
  * 返回类型：json
  * 返回数据：json.form，这是个类对象，参考ReleaseForm类
  */
-function WeiboReleaseForm(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName": "", "gender": ""};
+function WeiboReleaseForm(oriData){
 	$.ajax({
 		async : false,
 		url : 'WeiboReleaseForm.action',
-		
 		type : 'POST',
-		data: data,
 		dataType: 'json',
+		data: oriData,
 		success : function(json, status) {
 			var form = json.form;
 			var total = form.piced+form.unpiced;
@@ -207,14 +205,13 @@ function WeiboReleaseForm(){
  * 返回类型：json
  * 返回数据：json.brandList，这是个数组，其元素参考类对象PhoneBrand
  */
-function WeiboPhoneBrandMap(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName": "", "gender": ""};
+function WeiboPhoneBrandMap(oriData){
 	$.ajax({
 		async : false,
 		url : 'WeiboPhoneBrandMap.action',
 		type : 'POST',
-		data : data,
 		dataType: 'json',
+		data: oriData,
 		success : function(json, status) {
 			var brandList = json.brandList;
 			var nameArray=[];
@@ -282,14 +279,13 @@ function WeiboPhoneBrandMap(){
  * 返回类型：json
  * 返回数据：json.sourceList，这是个数组，其元素参考类对象SourceName
  */
-function WeiboSourceNameMap(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName": "", "gender": ""};
+function WeiboSourceNameMap(oriData){
 	$.ajax({
 		async : false,
 		url : 'WeiboSourceNameMap.action',
 		type : 'POST',
-		data : data,
 		dataType: 'json',
+		data: oriData,
 		success : function(json, status) {
 			var sourceList = json.sourceList;
 			var nameArray=[];
@@ -355,20 +351,19 @@ function WeiboSourceNameMap(){
  * 返回类型：json
  * 返回数据：json.timeList，这是数组，其元素参考类对象TimePeriod
  */
-function WeiboTimePeriodMap(){
-	var data={"schoolProvince":"","schoolCity":"","schoolName": "", "gender": ""};
+function WeiboTimePeriodMap(oriData){
 	$.ajax({
 		async : false,
 		url : 'WeiboTimePeriodMap.action',
 		type : 'POST',
-		data : data,
 		dataType: 'json',
+		data: oriData,
 		success : function(json, status) {
 			var timeList = json.timeList;
 			var name=[];
 			var dataList=[];
 			for(var i=0 ; i<timeList.length ; i++){
-				name.push(timeList[i].createdHour);
+				name.push(timeList[i].period);
 				dataList.push(timeList[i].number);
 			}
 			var option = {
@@ -442,3 +437,4 @@ function WeiboTimePeriodMap(){
 function UserRelationshipMap(){
 	
 }
+

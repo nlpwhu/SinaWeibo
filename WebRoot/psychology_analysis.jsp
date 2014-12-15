@@ -19,34 +19,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 
 $(document).ready(function(){
-	PsychologyAnalysis();
-	changeCloudLabelColor($(".cloudLabelUl li a").eq(0));
-	
-	$(".cloudLabelUl li a").click(function(){
-		var idx = $(this).parent("li").index()+1;
-		GeneratePsychologyEventTagCloud(idx);
-		if ($(this).children("span").hasClass("labelActive"))
-		{
-			return false;
-		}
-		changeCloudLabelColor($(this));
-		return false;
-	});
-	
-	function changeCloudLabelColor(obj)
-	{
-		var changed = $("#EventTagCloud");
-		var colorToDo = obj.children("span").css("border-color");
-		var left = (obj.offset().left - changed.offset().left) * 100 / changed.width();
-		changed.css("border-color", colorToDo);
-		$('style').append(".topArrowFrom::before{  left: "+left.toFixed(1)+"%; border-bottom-color: "+colorToDo+"}.topArrowFrom::after{  left: "+(Number(left.toFixed(1))+1)+"%;}.labelActiveStyle{	color: "+colorToDo+";	border-color: "+colorToDo+"; }");
-				
-		obj.parents("ul").find("span").filter(function(){
-			return ($(this).hasClass("labelActive") && $(this).hasClass("labelActiveStyle"));
-		}).toggleClass("labelActive").toggleClass("labelActiveStyle");
-		obj.children("span").toggleClass("labelActive").toggleClass("labelActiveStyle");
-	}
-	
+	var oriData = "{\"schoolProvince\": \"\", \"schoolCity\": \"\", \"schoolName\": \"\", \"gender\": \"\", \"date_start\": \"\", \"date_end\": \"\"}";
+	initPsychology(oriData);
+
+		
 	var offy = $("#tab_div").offset().top;
 	//var oriWidth = $("#tab_div").width();
 	$(document).scroll(function(){

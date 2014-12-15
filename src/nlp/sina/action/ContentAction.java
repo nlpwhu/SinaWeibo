@@ -133,7 +133,9 @@ public class ContentAction extends ActionSupport{
 	/*
 	 * 获取选定微话题的数据列表，用于绘制话题时间走势图
 	 */
-	public String SelectedTopicTrend(){
+	public String 
+
+	(){
 		TopicDAO dao = new TopicDAO();
 		List<Integer> idList = new ArrayList<Integer>();
 		String[] t = idListStr.split(",");

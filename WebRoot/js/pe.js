@@ -2,9 +2,9 @@
 /*
  * 正能量分析
  */
-function PositiveEnergyAnalysis(){
+function PositiveEnergyAnalysis(oriData){
 	/*		获取正能量本体的数据		*/
-	var pe = FatchPositiveEnergyNoumenon();
+	var pe = FatchPositiveEnergyNoumenon(oriData);
 	
 	var eventList = pe.eventList;
 	var dataReList = pe.dataReList;
@@ -270,11 +270,68 @@ function PositiveEnergyAnalysis(){
 	    ]
 	};
 	
-	var chartStatistics = echarts.init($('#PEEventStatistics div.chart').get(0));	 
-	chartStatistics.setOption(optionStatistics);
-	var chartTrend = echarts.init($('#PEEventTren div.chart').get(0));	 
-	chartTrend.setOption(optionTrend);
+	if ($('#PEEventStatistics div.chart').is(":visible")) {
+		var chartStatistics = echarts.init($('#PEEventStatistics div.chart').get(0));	 
+		chartStatistics.setOption(optionStatistics);
+	}
+	if ($('#PEEventTren div.chart').is(":visible")) {
+		var chartTrend = echarts.init($('#PEEventTren div.chart').get(0));	 
+		chartTrend.setOption(optionTrend);
+	}
 	
-	GeneratePenergyEventTagCloud(eventList[0].id);
+	GenerateEventTagCloud(eventList[0].id, $("#PEEventTagCloud #EventTagCloud"), oriData);
 		
 }
+
+function initPositiveEnergy(oriData)
+{
+	PositiveEnergyAnalysis(oriData);
+	changeCloudLabelColor($(".cloudLabelUl li a").eq(0));
+}
+
+	
+$(".cloudLabelRow>span").click(function(){
+	var idx = $(this).hasClass("pre")? -1 : 1;
+	var obj = $(".cloudLabelUl li");
+	var objLeft = Number(obj.parent().css("margin-left").slice(0, -2));
+	var maxLeft = 0;
+	var maxDistance = obj.parents("div").eq(0).width() - obj.eq(-1).position().left - obj.eq(-1).width();
+	var minDistance = obj.eq(0).position().left;
+	if ((idx == 1 && maxDistance >= -20 && maxDistance < 20) ||
+		(idx == -1 && minDistance >= -20 && minDistance < 20))
+	{
+		return;
+	}
+	var show = 0, hide = 0, leftMove = 0, rightMove = 0;
+	for (var i = 0; i < obj.length - 1; i++) {
+		var left = Math.floor(obj.eq(i).position().left);
+		if (left > -10 && left < 10)
+		{
+			show = i;
+			leftMove = Math.floor(obj.eq(i+1).position().left);
+			rightMove = Math.floor(obj.eq(i-1).position().left);
+			break;
+		}
+	}
+	var objFinalLeft = objLeft;
+	show += idx;
+	hide = show - 1;
+	if (show > -1 && show < obj.length) {
+		if (idx == 1)
+		{
+			objFinalLeft -= leftMove;
+		}
+		else if (idx == -1)
+		{
+			objFinalLeft -= rightMove;
+		}
+		if (objFinalLeft <= maxLeft)
+		{
+			obj.parent().css("margin-left", objFinalLeft);
+			if (obj.eq(hide).children("a").children("span").hasClass("labelActive")) {
+				obj.eq(show).children("a").trigger("click");
+			}
+			changeCloudLabelColor(obj.find("span.labelActive").parent().eq(0));
+		}
+	}
+});

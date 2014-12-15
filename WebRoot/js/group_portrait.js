@@ -70,7 +70,7 @@ function FatchGroupPortraitList(){
 			SearchGroupPortrait(gpNameList[0]);
 			for(var i=0 ; i<gpNameList.length;i++){
 				var liName = gpNameList[i];
-				var li="<li><a href='javascript:void(0)'>" + liName + "</a></li>";
+				var li="<li><a href=''>" + liName + "</a></li>";
 				//alert(li);
 				$("#GroupPortraitList").append(li);
 			}
@@ -101,3 +101,30 @@ function FatchGroupPortraitList(){
 			});
 	})();	 */
 }
+
+
+
+
+
+
+
+
+/*******************************************/
+
+
+$(document).ready(function(){
+	FatchGroupPortraitList();
+	
+	$("#searchSubmit").click(function(){
+		var val = $("keywordStr").val();
+		SearchGroupPortrait(val);
+	});
+});
+
+
+
+
+
+
+
+

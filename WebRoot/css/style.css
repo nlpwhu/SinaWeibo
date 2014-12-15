@@ -1,7 +1,7 @@
 /**style.css**/
 
 #wrap>header{
-	background: url(../images/banner.jpg) no-repeat;
+	background: url(../img/banner.jpg) no-repeat;
 }
 
 nav.main li{
@@ -12,9 +12,108 @@ nav.main li{
 	font-weight: bold;
 }
 
-nav.main a:hover{
+nav.main a:hover, nav.cross ul.nav1 p:hover{
 	cursor: pointer;
 }
+
+#nav_cats{
+	background-color: #acf4ee;
+}
+
+.sec_nav_ul li a{
+	font-size: 1.4em;
+	font-weight: bold;
+	color: #00c4b4;
+}
+
+li.fir_nav h3{
+	background-color: #acf4ee;
+	font-size: 1.4em;
+	font-weight: bold;
+	color: #00c4b4;
+	text-align: center;
+}
+
+
+li.fir_nav h3:hover, li.fir_nav h3.current{
+	background-color: #ffffff;
+	border-left: 3px solid #00c4b4;
+}
+
+.sec_nav{
+	background-color: #ffffff;
+	border: 2px solid #00c4b4;
+}
+
+.sec_nav li a{
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #00c4b4;
+	cursor: pointer;
+}
+
+.sec_nav p a{
+	font-size: 1em;
+	cursor: pointer;
+}
+
+.sec_nav li a:hover, .sec_nav li a.current, .sec_nav_ul li a.current{
+	font-size: 1.2em;
+	font-weight: bold;
+	background-color: #00c4b4;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.sec_nav h4{
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #00c4b4;
+	border-bottom: 2px solid #00c4b4;
+}
+
+.sec_nav p{
+	text-align: right;
+}
+
+#college_sub a, #college_sub a:hover, #college_sub a.current{
+	font-size: 1em;
+	font-weight: normal;
+}
+/******************************************/
+ul#crumbs li a{
+	background: #3498db;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+}
+
+ul#crumbs li:first-child a{
+	background: #f98b18;
+}
+
+ul#crumbs li:nth-child(2) a{
+	background: #ff8041;
+}
+
+ul#crumbs li:nth-child(3) a{
+	background: #19988b;
+}
+
+ul#crumbs li:nth-child(4) a{
+	background: #7aa4dd;
+}
+
+/*************************************************/
+
+
+
+
+
+
+
+
 
 #UserGender, #UserWebAge, #UserVerifyType, #UserRegion, #WeiboRelease, #WeiboSource, 
 #WeiboTimePeriod, #UserRelationship, #tab_BasicInfo, #tab_PresetFocus, #tab_ExtractFocus, 
@@ -40,130 +139,130 @@ nav.main a:hover{
 }
 
 #UserGenderRate{
-	background: url(../images/genderBG.png) 185 120 no-repeat #f1fdbd;
+	background: url(../img/genderBG.png) 185px 120px no-repeat #f1fdbd;
 }
 
 #UserGenderRate h2{
-	background: url(../images/basicInfo.png) 0 0 no-repeat;
+	background: url(../img/basicInfo.png) 0 0 no-repeat;
 }
 
 #UserWebAgeMap{
-	background: url(../images/ageBG.png) 200 100 no-repeat;
+	background: url(../img/ageBG.png) 200px 100px no-repeat;
 }
 
 #UserWebAgeMap h2{
-	background: url(../images/basicInfo.png) 0 -75 no-repeat;
+	background: url(../img/basicInfo.png) 0 -75px no-repeat;
 }
 
 #UserVerifyTypeMap h2{
-	background: url(../images/basicInfo.png) 0 -150 no-repeat;
+	background: url(../img/basicInfo.png) 0 -150px no-repeat;
 }
 
 #UserRegionMap h2{
-	background: url(../images/basicInfo.png) 0 -224 no-repeat;
+	background: url(../img/basicInfo.png) 0 -224px no-repeat;
 }
 
 #WeiboReleaseForm{
-	background: url(../images/releaseForm.png) 143 202 no-repeat #f1fdbd;
+	background: url(../img/releaseForm.png) 143px 202px no-repeat #f1fdbd;
 }
 
 #WeiboReleaseForm h2{
-	background: url(../images/basicInfo.png) 0 -300 no-repeat;
+	background: url(../img/basicInfo.png) 0 -300px no-repeat;
 }
 
 #pic{
-	background: url(../images/resource.png) 100 200 no-repeat;
+	background: url(../img/resource.png) 100px 200px no-repeat;
 }
 
 
 #WeiboSourceMap h2{
-	background: url(../images/basicInfo.png) 0 -375 no-repeat;
+	background: url(../img/basicInfo.png) 0 -375px no-repeat;
 }
 
 #WeiboPhoneBrandMap h4{
-	background: url(../images/tt.png) 10 0 no-repeat;
+	background: url(../img/tt.png) 10px 0 no-repeat;
 }
 
 #WeiboTimePeriodMap{
-	background: url(../images/timePeriod.png) 115 395 no-repeat #f1fdbd;
+	background: url(../img/timePeriod.png) 115px 395px no-repeat #f1fdbd;
 }
 
 #WeiboTimePeriodMap h2{
-	background: url(../images/basicInfo.png) 0 -450 no-repeat;
+	background: url(../img/basicInfo.png) 0 -450px no-repeat;
 }
 
 #UserRelationshipMap h2{
-	background: url(../images/basicInfo.png) 0 -525 no-repeat;
+	background: url(../img/basicInfo.png) 0 -525px no-repeat;
 }
 
 #ForwardOriginalMap h2{
-	background: url(../images/basicInfo.png) 0 -600 no-repeat;
+	background: url(../img/basicInfo.png) 0 -600px no-repeat;
 }
 
 #BasicQuantityMap h2{
-	background: url(../images/basicInfo.png) 0 -675 no-repeat;
+	background: url(../img/basicInfo.png) 0 -675px no-repeat;
 }
 
 #PresetFocusAnalysis h2{
-	background: url(../images/basicInfo.png) 0 -750 no-repeat;
+	background: url(../img/basicInfo.png) 0 -750px no-repeat;
 }
 
 #PresetFocusTrend h2{
-	background: url(../images/basicInfo.png) 0 -825 no-repeat;
+	background: url(../img/basicInfo.png) 0 -825px no-repeat;
 }
 
 #KeyWordsMap h2{
-	background: url(../images/basicInfo.png) 0 -900 no-repeat;
+	background: url(../img/basicInfo.png) 0 -900px no-repeat;
 }
 
 #ExtractFocusTrend h2{
-	background: url(../images/basicInfo.png) 0 -1125 no-repeat;	
+	background: url(../img/basicInfo.png) 0 -1125px no-repeat;	
 }
 
 #KeyWordsMap h3{
-	background: url(../images/keywordCloud.png) no-repeat;
+	background: url(../img/keywordCloud.png) no-repeat;
 }
 
 #TagCloud_All h2{
-	background: url(../images/basicInfo.png) 0 -1050 no-repeat;
+	background: url(../img/basicInfo.png) 0 -1050px no-repeat;
 }
 
 #ExtractTopicTrend h2{
-	background: url(../images/basicInfo.png) 0 -975 no-repeat;
+	background: url(../img/basicInfo.png) 0 -975px no-repeat;
 }
 
 
 #PsychologyEventStatistics{
-	background: url(../images/psy.png) 285 130 no-repeat #f1fdbd;
+	background: url(../img/psy.png) 285px 130px no-repeat #f1fdbd;
 }
 
 
 #PsychologyEventStatistics h2{
-	background: url(../images/basic.png) 0 0 no-repeat;
+	background: url(../img/basic.png) 0 0 no-repeat;
 }
 
 #PsychologyEventTrend h2{
-	background: url(../images/basic.png) 0 -75 no-repeat;
+	background: url(../img/basic.png) 0 -75px no-repeat;
 }
 
 #PsyEventTagCloud h2{
-	background: url(../images/basic.png) 0 -150 no-repeat #f1fdbd;
+	background: url(../img/basic.png) 0 -150px no-repeat #f1fdbd;
 }
 
 #PsyEventTagCloud h3{
-	background: url(../images/keywordCloud.png) no-repeat;
+	background: url(../img/keywordCloud.png) no-repeat;
 }
 
 #PEEventStatistics h2{
-	background: url(../images/basic.png) 0 -225 no-repeat #f1fdbd;
+	background: url(../img/basic.png) 0 -225px no-repeat #f1fdbd;
 }
 
 #PEEventTren h2{
-	background: url(../images/basic.png) 0 -300 no-repeat;
+	background: url(../img/basic.png) 0 -300px no-repeat;
 }
 
 #PEEventTagCloud h2{
-	background: url(../images/basic.png) 0 -375 no-repeat #f1fdbd;
+	background: url(../img/basic.png) 0 -375px no-repeat #f1fdbd;
 }
 
 #Search{
@@ -367,10 +466,10 @@ ul#_tab li a{
 	border-right: 110px solid transparent;
 	border-top: 10px solid transparent;
 	border-bottom: 10px solid transparent;
-	-moz-border-image: url(../images/subtitle.png) 0 110 0 110 stretch; /* 老版本的 Firefox */
-	-webkit-border-image: url(../images/subtitle.png) 0 110 0 110 stretch; /* Safari */
-	-o-border-image: url(../images/subtitle.png) 0 110 0 110 stretch; /* Opera */
-	border-image: url(../images/subtitle.png) 0 110 0 110 stretch;
+	-moz-border-image: url(../img/subtitle.png) 0 110 0 110 stretch; /* 老版本的 Firefox */
+	-webkit-border-image: url(../img/subtitle.png) 0 110 0 110 stretch; /* Safari */
+	-o-border-image: url(../img/subtitle.png) 0 110 0 110 stretch; /* Opera */
+	border-image: url(../img/subtitle.png) 0 110 0 110 stretch;
 	text-align: center;
 }
 
@@ -417,3 +516,31 @@ ul#_tab li a{
 	background-color: #00c4b4;
 }
 
+#result div#UserGenderRate{
+	background: url(../img/) 185px 120px no-repeat transparent;
+}
+
+#result div#UserWebAgeMap{
+	background: url(../img/) 200px 100px no-repeat transparent;
+}
+
+#result div#WeiboReleaseForm{
+	background: url(../img/_releaseForm.png) 130px 130px no-repeat transparent;
+}
+#result div#WeiboTimePeriodMap{
+	background: url(../img/) 115px 395px no-repeat transparent;
+}
+
+#result div#PsychologyEventStatistics{
+	background: url(../img/) 285px 130px no-repeat transparent;
+}
+
+#_main{
+	background-color: #f1fdbd;
+}
+
+#period_sub span{
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #00c4b4;
+}

@@ -16,80 +16,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/pe.js"></script>
 	<script type="text/javascript">
 $(document).ready(function(){
-	PositiveEnergyAnalysis();
-	changeCloudLabelColor($(".cloudLabelUl li a").eq(0));
-	
-	$(".cloudLabelUl li a").click(function(){
-		var idx = $(this).parent("li").index()+1;
-		GeneratePenergyEventTagCloud(idx);
-		if ($(this).children("span").hasClass("labelActive"))
-		{
-			return false;
-		}
-		changeCloudLabelColor($(this));
-		return false;
-	});
-	
-	function changeCloudLabelColor(obj)
-	{
-		var changed = $("#EventTagCloud");
-		var colorToDo = obj.children("span").css("border-color");
-		var left = (obj.offset().left - changed.offset().left) * 100 / changed.width();
-		changed.css("border-color", colorToDo);
-		$('style').append(".topArrowFrom::before{  left: "+left.toFixed(1)+"%; border-bottom-color: "+colorToDo+"}.topArrowFrom::after{  left: "+(Number(left.toFixed(1))+1)+"%;}.labelActiveStyle{	color: "+colorToDo+";	border-color: "+colorToDo+"; }");
-				
-		obj.parents("ul").find("span").filter(function(){
-			return ($(this).hasClass("labelActive") && $(this).hasClass("labelActiveStyle"));
-		}).toggleClass("labelActive").toggleClass("labelActiveStyle");
-		obj.children("span").toggleClass("labelActive").toggleClass("labelActiveStyle");
-		}
-	
-	
-	$(".cloudLabelRow>span").click(function(){
-		var idx = $(this).hasClass("pre")? -1 : 1;
-		var obj = $(".cloudLabelUl li");
-		var objLeft = Number(obj.parent().css("margin-left").slice(0, -2));
-		var maxLeft = 0;
-		var maxDistance = obj.parents("div").eq(0).width() - obj.eq(-1).position().left - obj.eq(-1).width();
-		var minDistance = obj.eq(0).position().left;
-		if ((idx == 1 && maxDistance >= -20 && maxDistance < 20) ||
-			(idx == -1 && minDistance >= -20 && minDistance < 20))
-		{
-			return;
-		}
-		var show = 0, hide = 0, leftMove = 0, rightMove = 0;
-		for (var i = 0; i < obj.length - 1; i++) {
-			var left = Math.floor(obj.eq(i).position().left);
-			if (left > -10 && left < 10)
-			{
-				show = i;
-				leftMove = Math.floor(obj.eq(i+1).position().left);
-				rightMove = Math.floor(obj.eq(i-1).position().left);
-				break;
-			}
-		}
-		var objFinalLeft = objLeft;
-		show += idx;
-		hide = show - 1;
-		if (show > -1 && show < obj.length) {
-			if (idx == 1)
-			{
-				objFinalLeft -= leftMove;
-			}
-			else if (idx == -1)
-			{
-				objFinalLeft -= rightMove;
-			}
-			if (objFinalLeft <= maxLeft)
-			{
-				obj.parent().css("margin-left", objFinalLeft);
-				if (obj.eq(hide).children("a").children("span").hasClass("labelActive")) {
-					obj.eq(show).children("a").trigger("click");
-				}
-				changeCloudLabelColor(obj.find("span.labelActive").parent().eq(0));
-			}
-		}
-	});
+	var oriData = "{\"schoolProvince\": \"\", \"schoolCity\": \"\", \"schoolName\": \"\", \"gender\": \"\", \"date_start\": \"\", \"date_end\": \"\"}";
+	initPositiveEnergy(oriData);
 	
 	var offy = $("#tab_div").offset().top;
 	//var oriWidth = $("#tab_div").width();
