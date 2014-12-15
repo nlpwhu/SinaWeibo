@@ -1,1 +1,2 @@
 src/c3p0.properties
+WebRoot/WEB-INF/classes/c3p0.properties
