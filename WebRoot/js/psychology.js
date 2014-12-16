@@ -200,7 +200,7 @@ function PsychologyAnalysis(oriData){
 		chartTrend.setOption(optionTrend);
 	}
 	
-	GenerateEventTagCloud(eventList[0].id, $("#PsyEventTagCloud #EventTagCloud"), oriData);
+	GeneratePsychologyEventTagCloud(eventList[0].id, $("#PsyEventTagCloud #EventTagCloud"), oriData);
 		
 }
 

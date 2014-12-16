@@ -317,7 +317,7 @@ function PresetFocusAnalysis(oriData){
 				chartTrend.setOption(optionTrend);
 			}
 			
-			GenerateEventTagCloud(eventList[0].id, $("#KeyWordsMap #EventTagCloud"), oriData);
+			GeneratePrefocusEventTagCloud(eventList[0].id, $("#KeyWordsMap #EventTagCloud"), oriData);
 }
 
 /**

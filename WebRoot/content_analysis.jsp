@@ -133,7 +133,7 @@ function replaceAll(obj,str1,str2){
 		<div id="tab_div">
 			<ul id="tab">
 				<li><a id="tab_BasicInfo" class="blocklink current" href="">基本信息</a></li>
-				<li><a id="tab_PresetFocus" class="blocklink" href="" >预设话题</a></li>
+				<li><a id="tab_PresetFocus" class="blocklink " href="" >预设话题</a></li>
 				<li><a id="tab_ExtractFocus" class="blocklink" href="" >抽取话题</a></li>
 				<li><a id="tab_Topics" class="blocklink" href="" >微话题</a></li>
 			</ul>

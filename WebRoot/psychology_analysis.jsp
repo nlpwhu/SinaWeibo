@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/noumenon.js"></script>
 	
 	<script type="text/javascript">
-"{\"schoolProvince\": "", \"schoolCity\": "+city_val+", \"schoolName\": "+school_val+", \"gender\": "+gender_val+", \"date_start\": "+dateStart+", \"date_end\": "+dateEnd+"}";
+
 $(document).ready(function(){
 	var oriData = "{\"schoolProvince\": \"\", \"schoolCity\": \"\", \"schoolName\": \"\", \"gender\": \"\", \"date_start\": \"\", \"date_end\": \"\"}";
 	initPsychology(oriData);

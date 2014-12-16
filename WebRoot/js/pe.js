@@ -279,7 +279,7 @@ function PositiveEnergyAnalysis(oriData){
 		chartTrend.setOption(optionTrend);
 	}
 	
-	GenerateEventTagCloud(eventList[0].id, $("#PEEventTagCloud #EventTagCloud"), oriData);
+	GeneratePenergyEventTagCloud(eventList[0].id, $("#PEEventTagCloud #EventTagCloud"), oriData);
 		
 }
 

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nlp.sina.configure.Configure;
 import nlp.sina.model.Event;
 import nlp.sina.model.KeyWord;
 import nlp.sina.util.DBUtil;
@@ -20,199 +21,262 @@ public class EventDAO {
 	/**
 	 * 函数作用：获取内容本体事件列表
 	 */
-	public List<Event> getEventList_Content(String schoolProvince, String schoolCity, String schoolName, String gender){
+	public List<Event> getEventList_Content(String schoolProvince, String schoolCity, String schoolName, String gender, String startDate, String endDate){
+		
 		List<Event> eventList = new ArrayList<Event>();
-		String sql = "select * from t_prefocus_map where schoolProvince = '%s' and schoolCity = '%s' and schoolName = '%s' and gender = '%s' order by prefocusId ";
-		sql = String.format(sql, schoolProvince, schoolCity, schoolName, gender);
-		System.out.println("查询t prefocus map:\n" + sql);
-		Connection conn = DBUtil.getConn();
-		Statement stmt = DBUtil.createStmt(conn);
-		ResultSet rst = DBUtil.getRs(stmt, sql);
-		try {
-			if(rst.next()){
-				rst.beforeFirst();
-				System.out.println("在预设话题map表里面查询到这条记录\n");
-				while(rst.next()){
+		String queryCondition = processWhereQuery(schoolProvince, schoolCity, schoolName, gender);
+        if(queryCondition.trim().isEmpty()){
+    		queryCondition = "where t_prefocus.id = t_prefocus_status.prefocusId and createdDate between '%s' and '%s'";
+    	}
+    	else{
+    		queryCondition = queryCondition + " and t_prefocus.id = t_prefocus_status.prefocusId and createdDate between '%s' and '%s'";
+    	}
+    	String sqlPrefocus = "select prefocusId, name, count(*) as number from t_prefocus_status, t_prefocus " + queryCondition + " group by prefocusId order by prefocusId";
+    	sqlPrefocus = String.format(sqlPrefocus, startDate, endDate);
+    	
+    	Connection conn = DBUtil.getConn();
+    	Statement stmt = DBUtil.createStmt(conn);
+    	if(schoolProvince.isEmpty() && schoolCity.isEmpty() && schoolName.isEmpty() && gender.isEmpty() && startDate.equals(Configure.StartTime) && endDate.equals(Configure.EndTime)){
+    		String sql = "select * from t_prefocus_map order by prefocusId";
+    		System.out.println("静态页面查询\n" + sql);
+    		ResultSet rstp = DBUtil.getRs(stmt, sql);
+    		try {
+				if(rstp.next()){
+					rstp.beforeFirst();
+					while(rstp.next()){
+						int eventId = rstp.getInt("prefocusId");
+						String eventName = rstp.getString("name");
+						int statusCount = rstp.getInt("number");
+						Event event = new Event(eventName, eventId, statusCount);
+						eventList.add(event);
+					}
 					
-					int eventId = rst.getInt("prefocusId");
-					String eventName = rst.getString("name");
-					int statusCount = rst.getInt("number");
-					//int type = rst.getInt("type");
-					Event event = new Event(eventName, eventId, statusCount);
-					eventList.add(event);
 				}
-		    }
-		    else{
-		    	String queryCondition = processWhereQuery(schoolProvince, schoolCity, schoolName, gender);
-		    	if(queryCondition.trim().isEmpty()){
-		    		queryCondition = "where t_prefocus.id = t_prefocus_status.prefocusId";
-		    	}
-		    	else{
-		    		queryCondition = queryCondition + " and t_prefocus.id = t_prefocus_status.prefocusId";
-		    	}
-		    	String sqlPrefocus = "select prefocusId, name, count(*) as number from t_prefocus_status, t_prefocus " + queryCondition + " group by prefocusId order by prefocusId";
-		    	System.out.println("在预设话题总表里面统计各个话题的数量\n" + sqlPrefocus);
-		    	Statement stmtp = DBUtil.createStmt(conn);
-		    	ResultSet rstp = DBUtil.getRs(stmt, sqlPrefocus);
-		    	while(rstp.next()){
-		    		int eventId = rstp.getInt("prefocusId");
-					String eventName = rstp.getString("name");
-					int statusCount = rstp.getInt("number");
-					//int type = rst.getInt("type");
-					Event event = new Event(eventName,eventId,statusCount);
-					eventList.add(event);
-					sql = "insert into t_prefocus_map values('%s', '%s', '%s', '%s', %d, '%s', %d)";
-					sql = String.format(sql, schoolProvince, schoolCity, schoolName, gender, rstp.getInt("prefocusId"), rstp.getString("name"), rstp.getInt("number"));
-					System.out.println("插入一条记录\n" + sql);
-					DBUtil.executeSQL(stmtp, sql);
-		    	}
-		    	DBUtil.closeRs(rstp);
-		    	DBUtil.closeStmt(stmtp);
-		    }
+				else{
+					Statement stmtp = DBUtil.createStmt(conn);
+					System.out.println("在预设话题总表里面统计各个话题的数量\n" + sqlPrefocus);
+					ResultSet rst = DBUtil.getRs(stmt, sqlPrefocus);
+					while(rst.next()){
+						int eventId = rst.getInt("prefocusId");
+						String eventName = rst.getString("name");
+						int statusCount = rst.getInt("number");
+						Event event = new Event(eventName, eventId, statusCount);
+						eventList.add(event);
+						sql = "insert into t_prefocus_map(prefocusId, name, number) values(%d, '%s', %d)";
+						sql = String.format(sql, eventId, eventName, statusCount);
+						System.out.println("插入一条记录\n" + sql);
+						DBUtil.executeSQL(stmtp, sql);
+					}
+					DBUtil.closeRs(rst);
+					DBUtil.closeStmt(stmtp);
+						
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				
+				DBUtil.closeRs(rstp);
+				DBUtil.closeStmt(stmt);
+				DBUtil.closeConn(conn);
+			}
+    		return eventList;
+    	}
+    	System.out.println("在预设话题总表里面统计各个话题的数量\n" + sqlPrefocus);
+    	ResultSet rstp = DBUtil.getRs(stmt, sqlPrefocus);
+    	try {
+			while(rstp.next()){
+				int eventId = rstp.getInt("prefocusId");
+				String eventName = rstp.getString("name");
+				int statusCount = rstp.getInt("number");
+				Event event = new Event(eventName,eventId,statusCount);
+				eventList.add(event);
+			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			try {  
-                rst.close();  
-                stmt.close();  
-                conn.close();  
-            } catch (SQLException e) {  
-                e.printStackTrace();  
-            }  
+			DBUtil.closeRs(rstp);
+			DBUtil.closeStmt(stmt);
+			DBUtil.closeConn(conn);
 		}
-		return eventList;
+    	
+    	return eventList;
 	}
 	/**
 	 * 函数作用：获取心理本体事件列表
 	 */
-	public List<Event> getEventList_Psychology(String schoolProvince,String schoolCity,String schoolName,String gender){
+	public List<Event> getEventList_Psychology(String schoolProvince, String schoolCity, String schoolName, String gender, String startDate, String endDate){
+		
 		List<Event> eventList = new ArrayList<Event>();
-		String sql = "select * from t_psychology_map where schoolProvince = '%s' and schoolCity = '%s' and schoolName = '%s' and gender = '%s' order by psychologyId";
-		sql = String.format(sql, schoolProvince, schoolCity, schoolName, gender);
-		System.out.println("从心理map里面查询相关记录:\n"+sql);
-		Connection conn = DBUtil.getConn();
-		Statement stmt = DBUtil.createStmt(conn);
-		ResultSet rst = DBUtil.getRs(stmt, sql);
-		try {
-			if(rst.next()){
-				System.out.println("在心理map表里面查询到这条记录\n");
-				rst.beforeFirst();
-				while(rst.next()){
-					int eventId = rst.getInt("psychologyId");
-					String eventName = rst.getString("name");
-					int statusCount = rst.getInt("number");
-					//int type = rst.getInt("type");
-					Event event = new Event(eventName,eventId,statusCount);
-					eventList.add(event);
-			    }
-			}
-			else{
-				String queryCondition = processWhereQuery(schoolProvince, schoolCity, schoolName, gender);
-				if(queryCondition.trim().isEmpty()){
-					queryCondition = " where t_psychology.id = t_psychology_status.psychologyId";
+		String queryCondition = processWhereQuery(schoolProvince, schoolCity, schoolName, gender);
+        if(queryCondition.trim().isEmpty()){
+    		queryCondition = "where t_psychology.id = t_psychology_status.psychologyId and createdDate between '%s' and '%s'";
+    	}
+    	else{
+    		queryCondition = queryCondition + " and t_psychology.id = t_psychology_status.psychologyId and createdDate between '%s' and '%s'";
+    	}
+    	String sqlPsychology = "select psychologyId, name, count(*) as number from t_psychology, t_psychology_status " + queryCondition + " group by psychologyId order by psychologyId";
+    	sqlPsychology = String.format(sqlPsychology, startDate, endDate);
+    	
+    	Connection conn = DBUtil.getConn();
+    	Statement stmt = DBUtil.createStmt(conn);
+    	if(schoolProvince.isEmpty() && schoolCity.isEmpty() && schoolName.isEmpty() && gender.isEmpty() && startDate.equals(Configure.StartTime) && endDate.equals(Configure.EndTime)){
+    		String sql = "select * from t_psychology_map order by psychologyId";
+    		System.out.println("静态页面查询\n" + sql);
+    		ResultSet rstp = DBUtil.getRs(stmt, sql);
+    		try {
+				if(rstp.next()){
+					rstp.beforeFirst();
+					while(rstp.next()){
+						int eventId = rstp.getInt("psychologyId");
+						String eventName = rstp.getString("name");
+						int statusCount = rstp.getInt("number");
+						Event event = new Event(eventName, eventId, statusCount);
+						eventList.add(event);
+					}
+					
 				}
 				else{
-					queryCondition = queryCondition + " and t_psychology.id = t_psychology_status.psychologyId";
+					Statement stmtp = DBUtil.createStmt(conn);
+					System.out.println("在心理总表里面统计各个话题的数量\n" + sqlPsychology);
+					ResultSet rst = DBUtil.getRs(stmt, sqlPsychology);
+					while(rst.next()){
+						int eventId = rst.getInt("psychologyId");
+						String eventName = rst.getString("name");
+						int statusCount = rst.getInt("number");
+						Event event = new Event(eventName, eventId, statusCount);
+						eventList.add(event);
+						sql = "insert into t_psychology_map(psychologyId, name, number) values(%d, '%s', %d)";
+						sql = String.format(sql, eventId, eventName, statusCount);
+						System.out.println("插入一条记录\n" + sql);
+						DBUtil.executeSQL(stmtp, sql);
+					}
+					DBUtil.closeRs(rst);
+					DBUtil.closeStmt(stmtp);
+						
 				}
-				String psychologySql = "select psychologyId, name, count(*) as number from t_psychology, t_psychology_status" + queryCondition + " group by psychologyId order by psychologyId";
-				System.out.println("在心理总表里面查询\n" + psychologySql);
-				Statement stmtp = DBUtil.createStmt(conn);
-				ResultSet rstp = DBUtil.getRs(stmt, psychologySql);
-				while(rstp.next()){
-					int eventId = rstp.getInt("psychologyId");
-					String eventName = rstp.getString("name");
-					int statusCount = rstp.getInt("number");
-					//int type = rst.getInt("type");
-					Event event = new Event(eventName,eventId,statusCount);
-					eventList.add(event);
-					sql = "insert into t_psychology_map values('%s', '%s', '%s', '%s', %d, '%s', %d)";
-					sql = String.format(sql, schoolProvince, schoolCity, schoolName, gender, rstp.getInt("psychologyId"), rstp.getString("name"), rstp.getInt("number"));
-					System.out.println("插入一条记录\n" + sql);
-					DBUtil.executeSQL(stmtp, sql);
-				}
-				DBUtil.closeStmt(stmtp);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				
 				DBUtil.closeRs(rstp);
+				DBUtil.closeStmt(stmt);
+				DBUtil.closeConn(conn);
+			}
+    		return eventList;
+    	}
+    	System.out.println("在心理总表里面统计各个话题的数量\n" + sqlPsychology);
+    	ResultSet rstp = DBUtil.getRs(stmt, sqlPsychology);
+    	try {
+			while(rstp.next()){
+				int eventId = rstp.getInt("psychologyId");
+				String eventName = rstp.getString("name");
+				int statusCount = rstp.getInt("number");
+				Event event = new Event(eventName, eventId, statusCount);
+				eventList.add(event);
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			try {  
-                rst.close();  
-                stmt.close();  
-                conn.close();  
-            } catch (SQLException e) {  
-                e.printStackTrace();  
-            }  
+			DBUtil.closeRs(rstp);
+			DBUtil.closeStmt(stmt);
+			DBUtil.closeConn(conn);
 		}
-		return eventList;
+    	
+    	return eventList;
 	}
 
+	
 
 	/**
 	 * 函数作用：获取正能量本体事件列表
 	 */
-	public List<Event> getEventList_PE(String schoolProvince,String schoolCity,String schoolName,String gender){
+	public List<Event> getEventList_PE(String schoolProvince, String schoolCity, String schoolName, String gender, String startDate, String endDate){
+		
 		List<Event> eventList = new ArrayList<Event>();
-		String sql = "select * from t_penergy_map where schoolProvince = '%s' and schoolCity = '%s' and schoolName = '%s' and gender = '%s' order by penergyId"; 
-		sql = String.format(sql, schoolProvince, schoolCity, schoolName, gender);
-		System.out.println("查询正能量map表:\n" + sql);
-		Connection conn = DBUtil.getConn();
-		Statement stmt = DBUtil.createStmt(conn);
-		ResultSet rst = DBUtil.getRs(stmt, sql);
-		try {
-			if(rst.next()){
-				rst.beforeFirst();
-				System.out.println("在正能量map表里面查询到这条记录\n");
-				while(rst.next()){
-					int eventId = rst.getInt("penergyId");
-					String eventName = rst.getString("name");
-					int statusCount = rst.getInt("number");
-					//int type = rst.getInt("type");
-					Event event = new Event(eventName, eventId, statusCount);
-					eventList.add(event);
-				}
-			}
-			else{
-				String queryCondition = processWhereQuery(schoolProvince, schoolCity, schoolName, gender);
-				if(queryCondition.trim().isEmpty()){
-					queryCondition = "where t_penergy_status.penergyId = t_penergy.id";
+		String queryCondition = processWhereQuery(schoolProvince, schoolCity, schoolName, gender);
+        if(queryCondition.trim().isEmpty()){
+    		queryCondition = "where t_penergy_status.penergyId = t_penergy.id and createdDate between '%s' and '%s'";
+    	}
+    	else{
+    		queryCondition = queryCondition + " and t_penergy_status.penergyId = t_penergy.id and createdDate between '%s' and '%s'";
+    	}
+    	String sqlPenergy = "select penergyId, name, count(*) as number from t_penergy, t_penergy_status " + queryCondition + " group by penergyId order by penergyId";
+    	sqlPenergy = String.format(sqlPenergy, startDate, endDate);
+    	
+    	Connection conn = DBUtil.getConn();
+    	Statement stmt = DBUtil.createStmt(conn);
+    	if(schoolProvince.isEmpty() && schoolCity.isEmpty() && schoolName.isEmpty() && gender.isEmpty() && startDate.equals(Configure.StartTime) && endDate.equals(Configure.EndTime)){
+    		String sql = "select * from t_penergy_map order by penergyId";
+    		System.out.println("静态页面查询\n" + sql);
+    		ResultSet rstp = DBUtil.getRs(stmt, sql);
+    		try {
+				if(rstp.next()){
+					rstp.beforeFirst();
+					while(rstp.next()){
+						int eventId = rstp.getInt("penergyId");
+						String eventName = rstp.getString("name");
+						int statusCount = rstp.getInt("number");
+						Event event = new Event(eventName, eventId, statusCount);
+						eventList.add(event);
+					}
+					
 				}
 				else{
-					queryCondition = queryCondition + " and t_penergy_status.penergyId = t_penergy.id";
+					Statement stmtp = DBUtil.createStmt(conn);
+					System.out.println("在正能量总表里面统计各个话题的数量\n" + sqlPenergy);
+					ResultSet rst = DBUtil.getRs(stmt, sqlPenergy);
+					while(rst.next()){
+						int eventId = rst.getInt("penergyId");
+						String eventName = rst.getString("name");
+						int statusCount = rst.getInt("number");
+						Event event = new Event(eventName, eventId, statusCount);
+						eventList.add(event);
+						sql = "insert into t_penergy_map(penergyId, name, number) values(%d, '%s', %d)";
+						sql = String.format(sql, eventId, eventName, statusCount);
+						System.out.println("插入一条记录\n" + sql);
+						DBUtil.executeSQL(stmtp, sql);
+					}
+					DBUtil.closeRs(rst);
+					DBUtil.closeStmt(stmtp);
+						
 				}
-				String penergySql = "select penergyId, name, count(*) as number from t_penergy, t_penergy_status " + queryCondition + " group by penergyId order by penergyId";
-				System.out.println("在正能量总表里面查询\n" + penergySql);
-				Statement stmtp =  DBUtil.createStmt(conn);
-				ResultSet rstp = DBUtil.getRs(stmt, penergySql);
-				while(rstp.next()){
- 					int eventId = rstp.getInt("penergyId");
-					String eventName = rstp.getString("name");
-					int statusCount = rstp.getInt("number");
-					//int type = rst.getInt("type");
-					Event event = new Event(eventName, eventId, statusCount);
-					eventList.add(event);
-					sql = "insert into t_penergy_map values('%s', '%s', '%s', '%s', %d, '%s', %d)";
-					sql = String.format(sql, schoolProvince, schoolCity, schoolName, gender, rstp.getInt("penergyId"), rstp.getString("name"), rstp.getInt("number"));
-					DBUtil.executeSQL(stmtp, sql);
-					System.out.println("插入一条记录\n" + sql);
-
-				}
-				DBUtil.closeStmt(stmtp);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				
 				DBUtil.closeRs(rstp);
+				DBUtil.closeStmt(stmt);
+				DBUtil.closeConn(conn);
+			}
+    		return eventList;
+    	}
+    	System.out.println("在正能量总表里面统计各个话题的数量\n" + sqlPenergy);
+    	ResultSet rstp = DBUtil.getRs(stmt, sqlPenergy);
+    	try {
+			while(rstp.next()){
+				int eventId = rstp.getInt("penergyId");
+				String eventName = rstp.getString("name");
+				int statusCount = rstp.getInt("number");
+				Event event = new Event(eventName,eventId,statusCount);
+				eventList.add(event);
 			}
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			try {  
-                rst.close();  
-                stmt.close();  
-                conn.close();  
-            } catch (SQLException e) {  
-                e.printStackTrace();  
-            }  
+			DBUtil.closeRs(rstp);
+			DBUtil.closeStmt(stmt);
+			DBUtil.closeConn(conn);
 		}
-		return eventList;
+    	
+    	return eventList;
 	}
+	
 	/**
 	 * 根据本体事件ID，获取本体事件具体信息
 	 * @param eventId

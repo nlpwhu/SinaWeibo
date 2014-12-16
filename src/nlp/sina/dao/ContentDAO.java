@@ -48,46 +48,60 @@ public class ContentDAO {
 		
 		Connection conn = DBUtil.getConn();
 		Statement stmt = DBUtil.createStmt(conn);
-		if(schoolProvince == "" && schoolCity == "" && schoolName == "" && gender == "" && startDate == Configure.StartTime && endDate == Configure.EndTime){
+		//System.out.println(schoolProvince + schoolCity + schoolName + gender + startDate + endDate);
+		if(schoolProvince.isEmpty() && schoolCity.isEmpty() && schoolName.isEmpty() && gender.isEmpty() && startDate.equals(Configure.StartTime) && endDate.equals(Configure.EndTime)){
 			String sql = "select * from t_content_map";
 			System.out.println("在静态页面内容总表里面查询\n" + sql);
 			ResultSet rst= DBUtil.getRs(stmt, sql);
 		    BasicInfo binfo = new BasicInfo();
-		    if(rst.next){
-		    	binfo.TotalStatusCount = rst.getInt("TotalStatusCount");
-		    	binfo.RepostedStatusCount = rst.getInt("RepostedStatusCount");
-			    binfo.StatusCommentCount = rst.getInt("StatusCommentCount");
-				binfo.StatusRepostCount = rst.getInt("StatusRepostCount");
-				binfo.StatusAttitudeCount = rst.getInt("StatusAttitudeCount");
-				binfo.OriginalStatusCount = binfo.TotalStatusCount - binfo.RepostedStatusCount;
-				binfo.AvgStatusRepostCount = binfo.StatusRepostCount/(float)binfo.TotalStatusCount;
-				return binfo;
-		    }
-		    else{
-		    	System.out.println("\n" + sqlTotal);
-		    	rst = DBUtil.getRs(stmt, sqlTotal);
-		    	if(rst.next()){
-		    		binfo.TotalStatusCount = rst.getInt("TotalStatusCount");
-		    	}
-		    	System.out.println("\n" + sqlReposted);
-			rst = DBUtil.getRs(stmt, sqlReposted);
-			if(rst.next()){
-				binfo.RepostedStatusCount = rst.getInt("RepostedStatusCount");
+		    try {
+				if(rst.next()){
+					System.out.println("在总表里面查到了");
+					binfo.TotalStatusCount = rst.getInt("TotalStatusCount");
+					binfo.RepostedStatusCount = rst.getInt("RepostedStatusCount");
+				    binfo.StatusCommentCount = rst.getInt("StatusCommentCount");
+					binfo.StatusRepostCount = rst.getInt("StatusRepostCount");
+					binfo.StatusAttitudeCount = rst.getInt("StatusAttitudeCount");
+					binfo.OriginalStatusCount = binfo.TotalStatusCount - binfo.RepostedStatusCount;
+					binfo.AvgStatusRepostCount = binfo.StatusRepostCount/(float)binfo.TotalStatusCount;
+					
+				}
+				else{
+					System.out.println("\n" + sqlTotal);
+					rst = DBUtil.getRs(stmt, sqlTotal);
+					if(rst.next()){
+						binfo.TotalStatusCount = rst.getInt("TotalStatusCount");
+					}
+					System.out.println("\n" + sqlReposted);
+					rst = DBUtil.getRs(stmt, sqlReposted);
+					if(rst.next()){
+						binfo.RepostedStatusCount = rst.getInt("RepostedStatusCount");
+					}
+					 
+					System.out.println("\n" + sqlCount);
+					rst = DBUtil.getRs(stmt, sqlCount);
+					if(rst.next()){
+						binfo.StatusCommentCount = rst.getInt("StatusCommentCount");
+						binfo.StatusRepostCount = rst.getInt("StatusRepostCount");
+						binfo.StatusAttitudeCount = rst.getInt("StatusAttitudeCount");
+					}
+					 
+					binfo.OriginalStatusCount = binfo.TotalStatusCount - binfo.RepostedStatusCount;
+					binfo.AvgStatusRepostCount = binfo.StatusRepostCount/(float)binfo.TotalStatusCount;
+					sql = "insert into t_content_map(TotalStatusCount, RepostedStatusCount, StatusCommentCount, StatusRepostCount, StatusAttitudeCount) values(%d, %d, %d, %d, %d)";
+					sql = String.format(sql, binfo.TotalStatusCount, binfo.RepostedStatusCount, binfo.StatusCommentCount, binfo.StatusRepostCount, binfo.StatusAttitudeCount);
+					System.out.println("往总表里面插入数据" + sql);
+		    		DBUtil.executeSQL(stmt, sql);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				DBUtil.closeRs(rst);
+				DBUtil.closeStmt(stmt);
+				DBUtil.closeConn(conn);
 			}
-			 
-			System.out.println("\n" + sqlCount);
-			rst = DBUtil.getRs(stmt, sqlCount);
-			if(rst.next()){
-				binfo.StatusCommentCount = rst.getInt("StatusCommentCount");
-				binfo.StatusRepostCount = rst.getInt("StatusRepostCount");
-				binfo.StatusAttitudeCount = rst.getInt("StatusAttitudeCount");
-			}
-			 
-			binfo.OriginalStatusCount = binfo.TotalStatusCount - binfo.RepostedStatusCount;
-			binfo.AvgStatusRepostCount = binfo.StatusRepostCount/(float)binfo.TotalStatusCount;
-		    }
-		    sql = "insert into t_content_map(TotalStatusCount, RepostedStatusCount, StatusCommentCount, StatusRepostCount, StatusAttitudeCount) values(%d, %d, %d, %d, %d)";
-		    DBUtil.executeSQL(stmt, sql);
+		    
 		    return binfo;
 		}
 		System.out.println("\n" + sqlTotal);

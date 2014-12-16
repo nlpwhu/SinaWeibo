@@ -37,17 +37,20 @@ public class NoumenonAction extends ActionSupport{
 	 * @return
 	 */
 	public String FatchContentNoumenon(){
-		
+		long startTime = System.currentTimeMillis();
 		EventDAO dao = new EventDAO();
-		List<Event> eventList = dao.getEventList_Content(schoolProvince, schoolCity, schoolName, gender);
-		content = new Noumenon(eventList);
+		List<String> timeArray;
 		if(date_start.isEmpty() || date_end.isEmpty()){
-			content.timeArray = Configure.timeArray;
+			timeArray = Configure.timeArray;
 			date_start = Configure.StartTime;
 			date_end = Configure.EndTime;
 		}else{
-			content.timeArray = TimeUtil.generateTimeArray(date_start, date_end);
+			timeArray = TimeUtil.generateTimeArray(date_start, date_end);
 		}
+		
+		List<Event> eventList = dao.getEventList_Content(schoolProvince, schoolCity, schoolName, gender, date_start, date_end);
+		content = new Noumenon(eventList);
+		content.timeArray = timeArray;
 		for(Event event:content.eventList){
 			Map<String,Integer> map = dao.getContentDaysCount(schoolProvince, schoolCity, schoolName, gender, event.id, date_start, date_end);
 			
@@ -64,7 +67,8 @@ public class NoumenonAction extends ActionSupport{
 			}
 			content.dataReList.add(list);
 		}	
-			
+		long endTime = System.currentTimeMillis();
+    	System.out.println("程序运行时间： "+ (endTime - startTime) + "ms"); 	
 		return SUCCESS;
 	}
 	/**
@@ -74,15 +78,18 @@ public class NoumenonAction extends ActionSupport{
 	public String FatchPsychologyNoumenon(){
 		
 		EventDAO dao = new EventDAO();
-		List<Event> eventList = dao.getEventList_Psychology(schoolProvince, schoolCity, schoolName, gender);
-		psychology = new Noumenon(eventList);
+		List<String> timeArray;
 		if(date_start.isEmpty() || date_end.isEmpty()){
-			psychology.timeArray = Configure.timeArray;
+			timeArray = Configure.timeArray;
 			date_start = Configure.StartTime;
 			date_end = Configure.EndTime;
 		}else{
-			psychology.timeArray = TimeUtil.generateTimeArray(date_start, date_end);
+			timeArray = TimeUtil.generateTimeArray(date_start, date_end);
 		}
+		
+		List<Event> eventList = dao.getEventList_Psychology(schoolProvince, schoolCity, schoolName, gender, date_start, date_end);
+		psychology = new Noumenon(eventList);
+		psychology.timeArray = timeArray;
 		for(Event event:psychology.eventList){
 			Map<String,Integer> map = dao.getPsychologyDaysCount(schoolProvince,schoolCity,schoolName, gender, event.id, date_start, date_end);
 			
@@ -107,18 +114,20 @@ public class NoumenonAction extends ActionSupport{
 	 */
 	public String FatchPositiveEnergyNoumenon(){
 		
-		EventDAO dao = new EventDAO();
-		List<Event> eventList = dao.getEventList_PE(schoolProvince, schoolCity, schoolName, gender);
 		
-		positiveEnergy = new Noumenon(eventList);
+		EventDAO dao = new EventDAO();
+		List<String> timeArray;
 		if(date_start.isEmpty() || date_end.isEmpty()){
-			positiveEnergy.timeArray = Configure.timeArray;
+			timeArray = Configure.timeArray;
 			date_start = Configure.StartTime;
 			date_end = Configure.EndTime;
 		}else{
-			positiveEnergy.timeArray = TimeUtil.generateTimeArray(date_start, date_end);
+			timeArray = TimeUtil.generateTimeArray(date_start, date_end);
 		}
 		
+		List<Event> eventList = dao.getEventList_PE(schoolProvince, schoolCity, schoolName, gender, date_start, date_end);
+		positiveEnergy = new Noumenon(eventList);
+		positiveEnergy.timeArray = timeArray;
 		for(Event event:positiveEnergy.eventList){
 			Map<String,Integer> map = dao.getPenergyDaysCount(schoolProvince,schoolCity,schoolName, gender, event.id,date_start, date_end);
 			

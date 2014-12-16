@@ -67,12 +67,49 @@ function FatchPsychologyNoumenon(oriData){
  * 参数：eventId(事件ID)
  * 返回类型：json
  * 返回数据：json.keywordList
+
  */
-function FatchEventTagData(eventId, oriData){
+ function FatchPrefocusEventTagData(eventId, oriData){
 	var keywordList;
 	$.ajax({
 		async : false,
-		url : 'FatchEventTagData.action?eventId='+eventId,
+		url : 'FatchPrefocusEventTagData.action?eventId='+eventId,
+		type: 'POST',
+		dataType: 'json',
+		data: JSON.parse(oriData),
+		success : function(json, status) {
+			keywordList = json.keywordList ;
+		},
+		error : function(a, b) {
+			alert("可能由于网络原因，获取预设话题失败，请联系管理员");
+		}
+	});
+	return keywordList;
+}
+
+ function FatchPsychologyEventTagData(eventId, oriData){
+	var keywordList;
+	$.ajax({
+		async : false,
+		url : 'FatchPsychologyEventTagData.action?eventId='+eventId,
+		type: 'POST',
+		dataType: 'json',
+		data: JSON.parse(oriData),
+		success : function(json, status) {
+			keywordList = json.keywordList ;
+		},
+		error : function(a, b) {
+			alert("可能由于网络原因，获取预设话题失败，请联系管理员");
+		}
+	});
+	return keywordList;
+}
+
+function FatchPenergyEventTagData(eventId, oriData){
+	var keywordList;
+	$.ajax({
+		async : false,
+		url : 'FatchPenergyEventTagData.action?eventId='+eventId,
 		type: 'POST',
 		dataType: 'json',
 		data: JSON.parse(oriData),
@@ -91,7 +128,7 @@ function FatchEventTagData(eventId, oriData){
  * 请求：FatchEventTagData.action
  * 参数：eventId(事件ID)
  */
-function GenerateEventTagCloud(eventId, ele, oriData){
+ function GeneratePrefocusEventTagCloud(eventId, ele, oriData){
 	if (!ele.is(":visible"))
 	{
 		return;
@@ -99,7 +136,57 @@ function GenerateEventTagCloud(eventId, ele, oriData){
 	$(".loadingCover").show();
 	ele.html("");
 	
-	var keywordList = FatchEventTagData(eventId, oriData) ;
+	var keywordList = FatchPrefocusEventTagData(eventId, oriData) ;
+	var word_list = [];
+	for(var i=0 ; i<keywordList.length ; i++){
+		if(i%3==0 && i!=0){
+			var t ={text:keywordList[i].name,weight:keywordList[i].freq,html: {"class": "vertical"}};
+			word_list.push(t);
+		}
+		else{
+			var t ={text:keywordList[i].name,weight:keywordList[i].freq};
+			word_list.push(t);
+		}
+	}
+	ele.jQCloud(word_list, { afterCloudRender: function(){
+		$(".loadingCover").hide();
+	}});
+}
+
+function GeneratePsychologyEventTagCloud(eventId, ele, oriData){
+	if (!ele.is(":visible"))
+	{
+		return;
+	}
+	$(".loadingCover").show();
+	ele.html("");
+	
+	var keywordList = FatchPsychologyEventTagData(eventId, oriData) ;
+	var word_list = [];
+	for(var i=0 ; i<keywordList.length ; i++){
+		if(i%3==0 && i!=0){
+			var t ={text:keywordList[i].name,weight:keywordList[i].freq,html: {"class": "vertical"}};
+			word_list.push(t);
+		}
+		else{
+			var t ={text:keywordList[i].name,weight:keywordList[i].freq};
+			word_list.push(t);
+		}
+	}
+	ele.jQCloud(word_list, { afterCloudRender: function(){
+		$(".loadingCover").hide();
+	}});
+}
+
+function GeneratePenergyEventTagCloud(eventId, ele, oriData){
+	if (!ele.is(":visible"))
+	{
+		return;
+	}
+	$(".loadingCover").show();
+	ele.html("");
+	
+	var keywordList = FatchPenergyEventTagData(eventId, oriData) ;
 	var word_list = [];
 	for(var i=0 ; i<keywordList.length ; i++){
 		if(i%3==0 && i!=0){
