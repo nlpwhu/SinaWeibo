@@ -21,7 +21,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 $(document).ready(function(){
 	var oriData = "{\"schoolProvince\": \"\", \"schoolCity\": \"\", \"schoolName\": \"\", \"gender\": \"\", \"date_start\": \"\", \"date_end\": \"\"}";
 	initPsychology(oriData);
-
+	$(".cloudLabelUl li a").click(function(){
+		clickCloudLabel($(this), oriData);
+	});
 		
 	var offy = $("#tab_div").offset().top;
 	//var oriWidth = $("#tab_div").width();

@@ -73,6 +73,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#topicTrendGenerateBtn").click(function(){
 				SelectedTopicTrend_Submit(oriData);
 			});
+			$(".cloudLabelUl li a").click(function(e){
+				clickCloudLabel($(this), oriData);
+				e.preventDefault();
+			});
 			
 			function mytab(tabID){
 				switch(tabID)

@@ -216,25 +216,25 @@ function changeCloudLabelColor(obj)
 	}).toggleClass("labelActive").toggleClass("labelActiveStyle");
 	obj.children("span").toggleClass("labelActive").toggleClass("labelActiveStyle");
 }
-		
-$(".cloudLabelUl li a").click(function(){
-	var idx = $(this).parent("li").index();
-	if ($(this).parents("#PEEventTagCloud")) {
-		idx += 5;
-	}
-	else if ($(this).parents("#PsyEventTagCloud")) {
-		idx += 15;
-	}
 
-	var ele = $(this).next("#EventTagCloud");
-	if (!ele) {
-		ele = $(this).parent().parent().next("#EventTagCloud");
-	}
-	GenerateEventTagCloud(idx, ele, oriData);
-	if ($(this).children("span").hasClass("labelActive"))
-	{
+	function clickCloudLabel(thisEle, oriData) {
+		var idx = thisEle.parent("li").index();
+		var ele = thisEle.next("#EventTagCloud");
+		if (thisEle.parents("#PEEventTagCloud").length > 0) {
+			GeneratePenergyEventTagCloud(idx, ele, oriData);
+		}
+		else if (thisEle.parents("#PsyEventTagCloud").length > 0) {
+			GeneratePsychologyEventTagCloud(idx, ele, oriData);
+		}
+		else {
+			ele = thisEle.parent().parent().next("#EventTagCloud");
+			GeneratePrefocusEventTagCloud(idx, ele, oriData);
+		}
+
+		if (thisEle.children("span").hasClass("labelActive"))
+		{
+			return false;
+		}
+		changeCloudLabelColor(thisEle);
 		return false;
 	}
-	changeCloudLabelColor($(this));
-	return false;
-});
