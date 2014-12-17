@@ -674,7 +674,7 @@ function SelectedFocusTrend_Submit(oriData){
 function dataReady(oriData)
 {
 	if (focusList.length < 1) {
-		focusList = FatchExtractedFocusList(oriData);
+		//focusList = FatchExtractedFocusList(oriData);
 	}
 	if (topicList.length < 1) {
 		topicList = FatchTopicList(oriData);

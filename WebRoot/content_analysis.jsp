@@ -82,9 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				switch(tabID)
 					{
 					case 'BasicInfo':
-					default:
 						BasicInfo(oriData);
-						break;
 					case 'PresetFocus':
 						showPreset(oriData);
 						break;
@@ -93,6 +91,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						break;
 					case 'Topics':
 						showTopic(oriData);
+						break;
+					default:
+						BasicInfo(oriData);
 						break;
 					}
 			}
