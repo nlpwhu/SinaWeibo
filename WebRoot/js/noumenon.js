@@ -1,11 +1,16 @@
 /*
  * 获取内容本体
  */
-function FatchContentNoumenon(oriData){
+function FatchPresetFocusNoumenon(idx, oriData){
+	var urls = ["FatchPresetFocusStatisticsData.action",
+				"FatchPresetFocusTrendData.action",
+				"FatchPresetFocusStatisticsData.action"
+	];
+	var url = urls[idx];
 	var ContentNoumenon;
 	$.ajax({
 		async : false,
-		url : 'FatchContentNoumenon.action',
+		url : url,
 		type: 'POST',
 		dataType: 'json',
 		data: JSON.parse(oriData),
@@ -22,11 +27,16 @@ function FatchContentNoumenon(oriData){
 /*
  * 获取正能量本体
  */
-function FatchPositiveEnergyNoumenon(oriData){
+function FatchPositiveEnergyNoumenon(idx, oriData){
+	var urls = ["FatchPositiveEnergyStatisticsData.action",
+				"FatchPositiveEnergyTrendData.action",
+				"FatchPositiveEnergyStatisticsData.action"
+	];
+	var url = urls[idx];
 	var PositiveEnergyNoumenon;
 	$.ajax({
 		async : false,
-		url : 'FatchPositiveEnergyNoumenon.action',
+		url : url,
 		type: 'POST',
 		dataType: 'json',
 		data: JSON.parse(oriData),
@@ -43,11 +53,16 @@ function FatchPositiveEnergyNoumenon(oriData){
 /*
  * 获取心理本体
  */
-function FatchPsychologyNoumenon(oriData){
+function FatchPsychologyNoumenon(idx, oriData){
+	var urls = ["FatchPsychologyStatisticsData.action",
+				"FatchPsychologyTrendData.action",
+				"FatchPsychologyStatisticsData.action"
+	];
+	var url = urls[idx];
 	var PsychologyNoumenon;
 	$.ajax({
 		async : false,
-		url : 'FatchPsychologyNoumenon.action',
+		url : url,
 		type: 'POST',
 		dataType: 'json',
 		data: JSON.parse(oriData),
@@ -218,16 +233,16 @@ function changeCloudLabelColor(obj)
 }
 
 	function clickCloudLabel(thisEle, oriData) {
-		var idx = thisEle.parent("li").index();
-		var ele = thisEle.next("#EventTagCloud");
+		var idx = thisEle.parent("li").index() + 1;
+		var ele = thisEle.parent().parent().next("#EventTagCloud");
 		if (thisEle.parents("#PEEventTagCloud").length > 0) {
+			ele = thisEle.parents("div.cloudLabelRow").next("#EventTagCloud");
 			GeneratePenergyEventTagCloud(idx, ele, oriData);
 		}
 		else if (thisEle.parents("#PsyEventTagCloud").length > 0) {
 			GeneratePsychologyEventTagCloud(idx, ele, oriData);
 		}
 		else {
-			ele = thisEle.parent().parent().next("#EventTagCloud");
 			GeneratePrefocusEventTagCloud(idx, ele, oriData);
 		}
 

@@ -17,8 +17,8 @@ var school_val = "";
 var gender_val = "";
 var dateStart = "2014-01-01";
 var dateEnd = "2014-06-01";
-var analysisID = 1;
-var sectionID = 1;
+var analysisID = 0;
+var sectionID = 0;
 var analysis_val = "";
 var section_val = "";
 /**
@@ -57,7 +57,10 @@ $(document).ready(function(){
         if(choosenItem)
             $(choosenItem).removeClass('current');
 		$(this).hide();
-		
+		if ($(this).attr("id") == "analysis_sub") {
+			$("#analysis_sub>ul").show();
+			$("#section_sub").hide();
+		}
 	});
 	
 	// $(".bootstrap-datetimepicker-widget").mouseenter(function(){
@@ -81,22 +84,23 @@ $(document).ready(function(){
 			dateEnd = end.format('YYYY-MM-DD');
 			if (!dateEnd) dateEnd = "";
 			updateCrumbs();
-			getDataFromServer();
+			//getDataFromServer();
     });
 	
 	initGender();
 	initAnalysis();
-    //默认情况下, 给第一个分析添加choosen样式
+	updateCrumbs();
+/*     //默认情况下, 给第一个分析添加choosen样式
     $('#analysis_sub li a').eq(0).addClass('current');
     //初始化模块列表
     initSection();
     //默认情况下, 给第一个section添加choosen样式
     $('#section_sub li a').eq(0).addClass('current');
 	$('#UserGenderRate').addClass('showChart');
-	updateCrumbs();
+	
 	getDataFromServer();
-	// var currentTab = false;
-
+	
+ */
 });
 
 function initProvince()
@@ -121,7 +125,7 @@ function initProvince()
             //更新大学列表
             initCity();
 			updateCrumbs();
-			getDataFromServer();
+			//getDataFromServer();
         }
     );
 }
@@ -151,9 +155,11 @@ function initCity()
 		$('#city_sub ul').after("<p><a class=\"pre\">上一页</a><a class=\"next\">下一页</a></p>");
 		$('#city_sub .pre').bind('click', function(){
 			cityPageCur = updatePage(cityPageCur, cityPage, cityData, "city", -1);
+			bindCityItem();
 		});
 		$('#city_sub .next').bind('click', function(){
 			cityPageCur = updatePage(cityPageCur, cityPage, cityData, "city", 1);
+			bindCityItem();
 		});
 	}
 	var len = Math.min((cityPageCur + 1) * PAGELISTLEN, cityData.length);
@@ -162,7 +168,11 @@ function initCity()
     {
         $('#city_sub ul').append('<li><a class="city-item" city_id="'+cityData[i].id+'">'+cityData[i].name+'</a></li>');
     }
-    //添加省份列表项的click事件
+	bindCityItem();
+}
+
+function bindCityItem(){
+    //添加城市列表项的click事件
     $('.city-item').bind('click', function(){
             var item=$(this);
             var city = item.attr('city_id');
@@ -177,7 +187,7 @@ function initCity()
 			//更新面包屑
 			updateCrumbs();
 			
-			getDataFromServer();
+			//getDataFromServer();
         }
     );	
 }
@@ -211,9 +221,11 @@ function initSchool()
 		$('#school_sub ul').after("<p><a class=\"pre\">上一页</a><a class=\"next\">下一页</a></p>");
 		$('#school_sub .pre').bind('click', function(){
 			schoolPageCur = updatePage(schoolPageCur, schoolPage, schools, "school", -1);
+			bindSchoolItem();
 		});
 		$('#school_sub .next').bind('click', function(){
 			schoolPageCur = updatePage(schoolPageCur, schoolPage, schools, "school", 1);
+			bindSchoolItem();
 		});
 	}
 	var len = Math.min((schoolPageCur + 1) * PAGELISTLEN, schools.length);
@@ -222,6 +234,11 @@ function initSchool()
     {
         $('#school_sub ul').append('<li><a class="school-item" school_id="'+schools[i].id+'">'+schools[i].name+'</a></li>');
     }
+
+	bindSchoolItem();
+}
+
+function bindSchoolItem() {
     //添加大学列表项的click事件
     $('.school-item').bind('click', function(){
             var item=$(this);
@@ -232,9 +249,10 @@ function initSchool()
                 $(choosenItem).removeClass('current');
             item.addClass('current');
 			updateCrumbs();
-			getDataFromServer();
+			//getDataFromServer();
         }
     );
+
 }
 
 /***该方法已过期****/
@@ -290,7 +308,7 @@ function initGender()
                 $(choosenItem).removeClass('current');
             item.addClass('current');
 			updateCrumbs();
-			getDataFromServer();
+			//getDataFromServer();
         }
     );
 }
@@ -360,17 +378,17 @@ var analysisList = [{
 			id: 3,
 			name: "预设话题基本统计图",
 			div: ["PresetFocusAnalysis"],
-			method: ["showPreset"]
+			method: ["presetFocusStatistics"]
 		},{
 			id: 4,
 			name: "预设话题走势图",
 			div: ["PresetFocusTrend"],
-			method: ["showPreset"]
+			method: ["presetFocusTrend"]
 		},{
 			id: 5,
 			name: "关键词云图",
 			div: ["KeyWordsMap"],
-			method: ["showPreset"]
+			method: ["presetFocusCloud"]
 		},{
 			id: 6,
 			name: "所有话题关键词云图",
@@ -394,17 +412,17 @@ var analysisList = [{
 			id: 1,
 			name: "心理基本统计图",
 			div: ["PsychologyEventStatistics"],
-			method: ["initPsychology"]
+			method: ["psychologyStatistics"]
 		},{
 			id: 2,
 			name: "心理基本走势图",
 			div: ["PsychologyEventTrend"],
-			method: ["initPsychology"]
+			method: ["psychologyTrend"]
 		},{
 			id: 3,
 			name: "心理统计云图",
 			div: ["PsyEventTagCloud"],
-			method: ["initPsychology"]
+			method: ["psychologyCloud"]
 		}]
 	},{
 		id: 5,
@@ -413,21 +431,22 @@ var analysisList = [{
 			id: 1,
 			name: "正能量基本统计图",
 			div: ["PEEventStatistics"],
-			method: ["initPositiveEnergy"]
+			method: ["positiveEnergyStatistics"]
 		},{
 			id: 2,
 			name: "正能量基本走势图",
 			div: ["PEEventTren"],
-			method: ["initPositiveEnergy"]
+			method: ["positiveEnergyTrend"]
 		},{
 			id: 3,
 			name: "正能量分析云图",
 			div: ["PEEventTagCloud"],
-			method: ["initPositiveEnergy"]
+			method: ["positiveEnergyCloud"]
 		}]
 	}
 ];
 
+/*********此方法已过期***********/
 function showAnalysis(id){
 	$("#result div.showChart").removeClass("showChart");
 	var data="{\"schoolProvince\": "+province_val+", \"schoolCity\": "+city_val+", \"schoolName\": "+school_val+", \"gender\": "+gender_val+", \"date_start\": "+dateStart+", \"date_end\": "+dateEnd+"}";
@@ -465,16 +484,17 @@ function initAnalysis()
 {
     //原先的分析列表清空
     $('#analysis_sub ul').html('');
-	analysisID = 1;
+	analysisID = 0;
     for(i=0;i<analysisList.length;i++)
     {
-        $('#analysis_sub ul').append('<li><a class="analysis-item" analysis_id="'+analysisList[i].id+'">'+analysisList[i].name+'</a></li>');
+        $('#analysis_sub>ul').append('<li><a class="analysis-item" analysis_id="'+analysisList[i].id+'">'+analysisList[i].name+'</a></li>');
     }
     //添加分析列表项的click事件
     $('.analysis-item').bind('click', function(){
             var item=$(this);
 			analysisID = item.attr('analysis_id');
-			showAnalysis(analysisID);
+			//showAnalysis(analysisID);
+			initSection();
 			
             var choosenItem = item.parent().parent().find('.current');
             if(choosenItem)
@@ -488,7 +508,9 @@ function initAnalysis()
 
 function initSection()
 {
-	$("#section_sub h4").html(analysisList[analysisID-1].name);
+	$("#analysis_sub>ul").hide();
+	$("#section_sub").show();
+	$("#section_sub h4 span").html(analysisList[analysisID-1].name);
     //原先的模块列表清空
     $('#section_sub ul').html('');
 	var next = $('#section_sub ul').next();
@@ -496,7 +518,7 @@ function initSection()
 	{
 		next.remove();
 	}
-	sectionID = 1;
+	sectionID = 0;
 	var sectionList = analysisList[analysisID-1].list;
     for(i=0;i<sectionList.length;i++)
     {
@@ -550,6 +572,10 @@ function updateCrumbs(){
 
 function getDataFromServer(){
 	var data="{\"schoolProvince\": \""+province_val+"\", \"schoolCity\": \""+city_val+"\", \"schoolName\": \""+school_val+"\", \"gender\": \""+gender_val+"\", \"date_start\": \""+dateStart+"\", \"date_end\": \""+dateEnd+"\"}";
+	if (analysisID == 0 || sectionID == 0) {
+		alert("请选择分析对象");
+		return;
+	}
 	var funcList = analysisList[analysisID-1].list[sectionID-1].method;
 	if (funcList.length > 0) {
 		for (i = 0; i<funcList.length; i++) {

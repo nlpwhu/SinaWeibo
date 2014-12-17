@@ -135,189 +135,192 @@ function BasicInfo(oriData){
  * 预设话题分析其实就是对应于内容本体的分析
  *
  */
-function PresetFocusAnalysis(oriData){
+function PresetFocusAnalysis(idx, oriData){
 	/*		获取内容本体的数据		*/
-			var preFocus = FatchContentNoumenon(oriData);
+			var preFocus = FatchPresetFocusNoumenon(idx, oriData);
 			var eventList = preFocus.eventList;
 			var dataReList = preFocus.dataReList;
-			var optionStatistics = {
-	/* 	    title : {
-	        text: '预设话题基本统计图',
-	        subtext: '季度数据',
-	        x:'center'
-	    },
-		 */	    tooltip : {
-			        trigger: 'item',
-			        formatter: "{a} <br/>{b} : {c} ({d}%)"
-			    },
-			    legend: {
-			        orient : 'vertical',
-			        x : 'left',
-			        data:[eventList[0].name,eventList[1].name,eventList[2].name,eventList[3].name,eventList[4].name]
-			    },
-		/* 	    toolbox: {
-			        show : true,
-			        feature : {
-			            mark : {show: true},											
-			            dataView : {show: true, readOnly: false},
-			            restore : {show: true},
-			            saveAsImage : {show: true}
-			        }
-			    },
-			    calculable : true,
-		 */	    series : [
-			        {
-			            name:'预设话题',
-			            type:'pie',
-			            radius : '60%',
-			            center: ['50%', '65%'],
-			            data:[
-			                {value:eventList[0].statusCount, name:eventList[0].name},
-			                {value:eventList[1].statusCount, name:eventList[1].name},
-			                {value:eventList[2].statusCount, name:eventList[2].name},
-			                {value:eventList[3].statusCount, name:eventList[3].name},
-			                {value:eventList[4].statusCount, name:eventList[4].name}
-			            ]
-			        }
-			    ]
-			};
-				                    
-			var optionTrend = {
-			    title : {
-			        text: '',
-			        subtext: '季度数据'
-			    },
-			    tooltip : {
-			        trigger: 'axis'
-			    },
-			    legend: {
-			        data:[eventList[0].name,eventList[1].name,eventList[2].name,eventList[3].name,eventList[4].name]
-			    },
-			    toolbox: {
-			        show : true,
-			        feature : {
-			        	dataZoom : {show: true},
-			            dataView : {show: true, readOnly: false},
-			            restore : {show: true},
-			            saveAsImage : {show: true}
-			        }
-			    },
-			    dataZoom : {
-			        show : true,
-			        realtime: true,
-			        start : 0,
-			        end : 100
-			    },
-			    calculable : true,
-			    xAxis : [
-			        {
-			            type : 'category',
-			            boundaryGap : false,
-			            data : preFocus.timeArray
-			        }
-			    ],
-			    yAxis : [
-			        {
-			            type : 'value',
-			            axisLabel : {
-			                formatter: '{value}'
-			            }
-			        }
-			    ],
-			    series : [
-			        {
-			            name:eventList[0].name,
-			            type:'line',
-			            data:dataReList[0],
-			            markPoint : {
-			                data : [
-			                    {type : 'max', name: '最大值'},
-			                    {type : 'min', name: '最小值'}
-			                ]
-			            },
-			            markLine : {
-			                data : [
-			                    {type : 'average', name: '平均值'}
-			                ]
-			            }
-			        },
-			        {
-			            name:eventList[1].name,
-			            type:'line',
-			            data:dataReList[1],
-			            markPoint : {
-			                data : [
-			                    {type : 'max', name: '最大值'},
-			                    {type : 'min', name: '最小值'}
-			                ]
-			            },
-			            markLine : {
-			                data : [
-			                    {type : 'average', name : '平均值'}
-			                ]
-			            }
-			        },
-			        {
-			            name:eventList[2].name,
-			            type:'line',
-			            data:dataReList[2],
-			            markPoint : {
-			                data : [
-			                    {type : 'max', name: '最大值'},
-			                    {type : 'min', name: '最小值'}
-			                ]
-			            },
-			            markLine : {
-			                data : [
-			                    {type : 'average', name : '平均值'}
-			                ]
-			            }
-			        },
-			        {
-			            name:eventList[3].name,
-			            type:'line',
-			            data:dataReList[3],
-			            markPoint : {
-			                data : [
-			                    {type : 'max', name: '最大值'},
-			                    {type : 'min', name: '最小值'}
-			                ]
-			            },
-			            markLine : {
-			                data : [
-			                    {type : 'average', name : '平均值'}
-			                ]
-			            }
-			        },
-			        {
-			            name:eventList[4].name,
-			            type:'line',
-			            data:dataReList[4],
-			            markPoint : {
-			                data : [
-			                    {type : 'max', name: '最大值'},
-			                    {type : 'min', name: '最小值'}
-			                ]
-			            },
-			            markLine : {
-			                data : [
-			                    {type : 'average', name : '平均值'}
-			                ]
-			            }
-			        }
-			    ]
-			};
-			
-			if ($('#PresetFocusAnalysis div.chart').is(":visible")) {
-				var chartStatistics = echarts.init($('#PresetFocusAnalysis div.chart').get(0));	 
-				chartStatistics.setOption(optionStatistics);
+			if (eventList != undefined) {
+				var optionStatistics = {
+		/* 	    title : {
+				text: '预设话题基本统计图',
+				subtext: '季度数据',
+				x:'center'
+			},
+			 */	    tooltip : {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)"
+					},
+					legend: {
+						orient : 'vertical',
+						x : 'left',
+						data:[eventList[0].name,eventList[1].name,eventList[2].name,eventList[3].name,eventList[4].name]
+					},
+			/* 	    toolbox: {
+						show : true,
+						feature : {
+							mark : {show: true},											
+							dataView : {show: true, readOnly: false},
+							restore : {show: true},
+							saveAsImage : {show: true}
+						}
+					},
+					calculable : true,
+			 */	    series : [
+						{
+							name:'预设话题',
+							type:'pie',
+							radius : '60%',
+							center: ['50%', '65%'],
+							data:[
+								{value:eventList[0].statusCount, name:eventList[0].name},
+								{value:eventList[1].statusCount, name:eventList[1].name},
+								{value:eventList[2].statusCount, name:eventList[2].name},
+								{value:eventList[3].statusCount, name:eventList[3].name},
+								{value:eventList[4].statusCount, name:eventList[4].name}
+							]
+						}
+					]
+				};
+				if ($('#PresetFocusAnalysis div.chart').is(":visible")) {
+					var chartStatistics = echarts.init($('#PresetFocusAnalysis div.chart').get(0));	 
+					chartStatistics.setOption(optionStatistics);
+				}
+				if (idx == 3) {
+					GeneratePrefocusEventTagCloud(eventList[0].id, $("#KeyWordsMap #EventTagCloud"), oriData);
+				}
 			}
-			if ($('#PresetFocusTrend div.chart').is(":visible")) {
-				var chartTrend = echarts.init($('#PresetFocusTrend div.chart').get(0));	 
-				chartTrend.setOption(optionTrend);
+			if (eventList != undefined && dataReList != undefined) {
+				var optionTrend = {
+					title : {
+						text: '',
+						subtext: '季度数据'
+					},
+					tooltip : {
+						trigger: 'axis'
+					},
+					legend: {
+						data:[eventList[0].name,eventList[1].name,eventList[2].name,eventList[3].name,eventList[4].name]
+					},
+					toolbox: {
+						show : true,
+						feature : {
+							dataZoom : {show: true},
+							dataView : {show: true, readOnly: false},
+							restore : {show: true},
+							saveAsImage : {show: true}
+						}
+					},
+					dataZoom : {
+						show : true,
+						realtime: true,
+						start : 0,
+						end : 100
+					},
+					calculable : true,
+					xAxis : [
+						{
+							type : 'category',
+							boundaryGap : false,
+							data : preFocus.timeArray
+						}
+					],
+					yAxis : [
+						{
+							type : 'value',
+							axisLabel : {
+								formatter: '{value}'
+							}
+						}
+					],
+					series : [
+						{
+							name:eventList[0].name,
+							type:'line',
+							data:dataReList[0],
+							markPoint : {
+								data : [
+									{type : 'max', name: '最大值'},
+									{type : 'min', name: '最小值'}
+								]
+							},
+							markLine : {
+								data : [
+									{type : 'average', name: '平均值'}
+								]
+							}
+						},
+						{
+							name:eventList[1].name,
+							type:'line',
+							data:dataReList[1],
+							markPoint : {
+								data : [
+									{type : 'max', name: '最大值'},
+									{type : 'min', name: '最小值'}
+								]
+							},
+							markLine : {
+								data : [
+									{type : 'average', name : '平均值'}
+								]
+							}
+						},
+						{
+							name:eventList[2].name,
+							type:'line',
+							data:dataReList[2],
+							markPoint : {
+								data : [
+									{type : 'max', name: '最大值'},
+									{type : 'min', name: '最小值'}
+								]
+							},
+							markLine : {
+								data : [
+									{type : 'average', name : '平均值'}
+								]
+							}
+						},
+						{
+							name:eventList[3].name,
+							type:'line',
+							data:dataReList[3],
+							markPoint : {
+								data : [
+									{type : 'max', name: '最大值'},
+									{type : 'min', name: '最小值'}
+								]
+							},
+							markLine : {
+								data : [
+									{type : 'average', name : '平均值'}
+								]
+							}
+						},
+						{
+							name:eventList[4].name,
+							type:'line',
+							data:dataReList[4],
+							markPoint : {
+								data : [
+									{type : 'max', name: '最大值'},
+									{type : 'min', name: '最小值'}
+								]
+							},
+							markLine : {
+								data : [
+									{type : 'average', name : '平均值'}
+								]
+							}
+						}
+					]
+				};
+				if ($('#PresetFocusTrend div.chart').is(":visible")) {
+					var chartTrend = echarts.init($('#PresetFocusTrend div.chart').get(0));	 
+					chartTrend.setOption(optionTrend);
+				}
 			}
-			
-			GeneratePrefocusEventTagCloud(eventList[0].id, $("#KeyWordsMap #EventTagCloud"), oriData);
 }
 
 /**
@@ -683,7 +686,21 @@ function dataReady(oriData)
 
 function showPreset(oriData)
 {
-	PresetFocusAnalysis(oriData);
+	presetFocusStatistics(oriData);
+	presetFocusTrend(oriData);
+	presetFocusCloud(oriData);
+}
+
+function presetFocusStatistics(oriData) {
+	PresetFocusAnalysis(0, oriData);
+}
+
+function presetFocusTrend(oriData) {
+	PresetFocusAnalysis(1, oriData);
+}
+
+function presetFocusCloud(oriData) {
+	PresetFocusAnalysis(2, oriData);
 	changeCloudLabelColor($(".label1").parents("a"));
 }
 

@@ -56,8 +56,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#topicTrendGenerateBtn").click(function(){
 			SelectedTopicTrend_Submit(oriData);
 		});
-		$(".cloudLabelUl li a").click(function(){
+		$(".cloudLabelUl li a").click(function(e){
 			clickCloudLabel($(this), oriData);
+			e.preventDefault();
+		});
+		
+		$("#section_sub .return").click(function(e){
+			$("#analysis_sub>ul").show();
+			$("#section_sub").hide();
+			e.preventDefault();
 		});
 		
 	});
@@ -90,9 +97,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li id="analysis" class="fir_nav">
 						<h3>分析</h3>
 					</li>
-					<li id="section" class="fir_nav">
+					<!--<li id="section" class="fir_nav">
 						<h3>模块</h3>
-					</li>
+					</li>-->
 				</ul>
 				<div id="nav_subcats">
 					<div id="province_sub" class="sec_nav">
@@ -158,7 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						  <div class="control-group">
 							<div class="controls">
 							 <div class="input-prepend input-group">
-							   <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span><input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" value="03/18/2013 - 03/23/2013" /> 
+							   <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span><input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" value="01/01/2014 - 06/01/2014" /> 
 							 </div>
 							</div>
 						  </div>
@@ -175,13 +182,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<li><a href="">排行榜</a></li>
 							<li><a href="">群体画像</a></li>	
 						</ul>
+						<div id="section_sub" class="hiddentab">
+							<h4>
+								<a class="return"><img src="<%=request.getContextPath()%>/img/LeftArrow.png" alt="返回"/></a>
+								<span>基本信息</span>
+							</h4>
+							<ul class="sec_nav_ul">
+								<li><a href=""></a></li>
+							</ul>
+						</div>
 					</div>
-					<div id="section_sub" class="sec_nav">
-						<h4>基本信息</h4>
-						<ul class="sec_nav_ul">
-							<li><a href=""></a></li>
-						</ul>
-					</div>
+
 				</div>
 			</div>
 			<div id="_main">

@@ -651,7 +651,9 @@ div#result div.chart{
 }
 
 #school_sub li{
-	width: 230px;
+	width: 275px;
+	height: 24px;
+	overflow: hidden;
 }
 
 #school_sub ul{
